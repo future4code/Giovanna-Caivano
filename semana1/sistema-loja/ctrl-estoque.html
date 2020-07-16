@@ -4,59 +4,66 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
     <title>Controle de Estoque</title>
 </head>
-<body>
-    <div>
-        <p>Loja Hogwarts</p>
-    </div>
+<body>    
+    <header>
+        <div class="menu">
+            <img src="img/hogwarts-logo.png" alt="Logo da Loja Hogwarts">
+        </div>
+        <div class="menu">
+            <a href="index.html">Página Inicial</a>
+            <a href="ctrl-estoque.html">Controle de Estoque</a>
+            <a href="add-produto.html">Adicionar Produto</a>
+            <a href="funcionarios.html">Funcionários</a>
+        </div>
+    </header>
+
+    <h2 class="titulo">Controle de Estoque</h2>
+
+    <br>
+    <br>
     
-    <div>
-        <a href="index.html">Página Inicial</a>
-        <a href="ctrl-estoque.html">Controle de Estoque</a>
-        <a href="add-produto.html">Adicionar Produto</a>
-        <a href="funcionarios.html">Funcionários</a>
-    </div>
-
-    <h2>Controle de Estoque</h2>
-
     <table>
-        <tr>
+        <tr class="produto">
             <th>Foto</th>
             <th>Descrição</th>
             <th>Preço (R$)</th>
-            <th>Quantidade disponível</th>
+            <th>Quantidade</th>
         </tr>
 
-        <tr>
+        <tr class="produto">
             <td><img src="img/moletom_grifinoria.png" alt="Foto - Moletom Grifinória"/></td>
             <td> Moletom Grifinória </td>
             <td> 189,00 </td>
             <td> 6 </td>
         </tr>
 
-        <tr>
+        <tr class="produto">
             <td><img src="img/pin_pomo_douro.png" alt="Foto - Pin Pomo de Ouro"/></td>
             <td> Pin Pomo de Ouro </td>
             <td> 29,90 </td>
             <td> 1 </td>
         </tr>
 
-        <tr>
+        <tr class="produto">
             <td><img src="img/caneca_sirius.jpg" alt="Foto - Caneca Sirius Black"/></td>
             <td> Caneca Sirius Black </td>
             <td> 54,90 </td>
             <td> 15 </td>
         </tr>
 
-        <tr>
+        <tr class="produto">
             <td><img src="img/almofada_lufa_lufa.jpg" alt="Foto - Almofada com Brasão Lufa-Lufa"/></td>
             <td> Almofada Brasão Lufa-Lufa </td>
             <td> 59,90 </td>
             <td> 3 </td>
         </tr>
         
-        <tr>
+        <tr class="produto">
             <td><img src="img/almofada_hogwarts.jpg" alt="Almofada com Brasão Hogwarts"/></td>
             <td> Almofada Brasão Hogwarts </td>
             <td> 49,90 </td>
@@ -64,6 +71,18 @@
         </tr>
 
     </table>
+
+    <footer>
+        <img class="brasao" src="img/emblem.png" alt="Brasão de Hogwarts">
+
+        <p>Siga-nos nas redes sociais!</p>
+
+        <div class="icones">
+            <img src="https://image.flaticon.com/icons/png/512/25/25305.png"/>
+            <img src="https://image.flaticon.com/icons/png/512/25/25425.png"/>
+            <img src="https://image.flaticon.com/icons/png/512/8/8800.png"/>
+        </div>
+    </footer>
 
 </body>
 </html>
