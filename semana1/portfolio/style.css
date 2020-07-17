@@ -1,0 +1,71 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    color: whitesmoke;
+    background-color: #1B2631;
+}
+
+header{
+    height: 68vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-bar {
+    padding: 8px;
+    background-color: #FFFFFF;
+    position: fixed;
+    width: 100vw;
+    top: 0;
+}
+
+.nav-bar ul {
+    display: flex;
+    justify-content: space-around;
+}
+
+.nav-bar li {
+    list-style: none;
+}
+
+.nav-bar a {
+    display: block;
+    padding: 20px;
+}
+
+a {
+    color: #2E4053;
+}
+
+.nav-opt h2{
+    margin-bottom: 16px;
+}
+
+.site-title, 
+.site-subtitle {
+    color: whitesmoke;
+    text-align: center;
+}
+
+.site-subtitle{
+    font: 2px;
+    line-height: 27px;
+}
+
+#sobre, 
+#contato, 
+#projects {
+    padding: 32px;
+}
+
+.#sobre p {
+    text-indent: 21px;
+    margin-bottom: 21px;
+    text-align: justify;
+}
