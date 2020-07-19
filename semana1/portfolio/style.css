@@ -5,13 +5,14 @@
 }
 
 body {
+    font-family: 'Fira Sans', sans-serif;
     height: 100vh;
     color: whitesmoke;
     background-color: #1B2631;
 }
 
 header{
-    height: 68vh;
+    height: 65vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,6 +46,7 @@ a {
 
 .nav-opt h2{
     margin-bottom: 16px;
+    margin-left: 20px;
 }
 
 .site-title, 
@@ -58,14 +60,116 @@ a {
     line-height: 27px;
 }
 
+.history {
+    display: block;
+}
+
 #sobre, 
 #contato, 
-#projects {
+#portfolio {
     padding: 32px;
 }
 
-.#sobre p {
-    text-indent: 21px;
-    margin-bottom: 21px;
-    text-align: justify;
+.bio, .history, .grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: repeat (3, 1fr);
+    grid-gap: 15px;
+    box-sizing: content-box;
+    padding: 10px;
 }
+
+.bio-img {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    text-align: center;
+}
+
+.bio-img img {
+    width: 227px;
+}
+
+.bio-text {
+    grid-column-start: 2;
+    grid-column-end: 7;
+    line-height: 30px;
+}
+
+.history-edu p, .history-pro p, .soft p, .hard p {
+    margin: 10px;
+    font-size: 20px;
+}
+
+.history-edu ul, .history-pro ul {
+    list-style-type: none;
+    line-height: 25px;
+    padding: 10px;
+}
+
+.soft, .history-edu {
+    grid-column-start: 1;
+    grid-column-end: 4;
+}
+
+.hard, .history-pro {
+    grid-column-start: 4;
+    grid-column-end: 7;
+}
+.grid > .item {
+    font-size: 13px;
+    background-color: whitesmoke;
+    color: #2E4053;
+    text-align: justify;
+    padding: 24px;
+    border-radius: 16px;
+}
+
+.grid-portfolio {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat (3, 1fr);
+    grid-gap: 15px;
+    box-sizing: content-box;
+    padding: 10px;
+}
+
+.project {
+    text-align: center;
+}
+
+.project figcaption {
+    color: whitesmoke;
+}   
+.project img {
+    width: 250px;
+    height: 150px;
+}
+
+form {
+    margin: 20px;
+}
+
+form label {
+    display: block;
+}
+
+.contato {
+    display: block;
+    margin: 5px 0 15px;
+}
+
+.social {
+    margin: 10px;
+}
+.social a {
+    color: white;
+    font-size: 24px;
+    text-decoration: none;
+}
+.social a:active,
+.social a:hover {
+    text-decoration: none;
+    text-shadow: yellowgreen 0.5px 0.5px 5px;
+    transition: ease-in-out 50ms;
+}
+
