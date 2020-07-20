@@ -149,6 +149,14 @@ td button {
     width: 15px;
 }
 
+.container-do-search img:hover {
+    opacity: 0.5;
+}
+
+.container-do-search img:active {
+    opacity: 1.0;
+}
+
 .buy-button:hover {
     background-color: #c44f00;
 }
