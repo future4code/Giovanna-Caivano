@@ -129,6 +129,13 @@ td button {
     height: 100px;
 }
 
+.container-do-search input {
+    border-top: hidden;
+    border-right: hidden;
+    border-left: hidden;
+    border-bottom: solid;
+}
+
 .container-do-search img {
     background-color: white;
     width: 15px;
