@@ -1,0 +1,29 @@
+header {
+    height: 15vh;
+}
+
+body {
+    height: 100vh;
+    margin-bottom: 16px;
+    margin-left: 20px;
+}
+
+.project-headline {
+    margin-bottom: 30px;
+}
+
+.project-img {
+    width: 500px;
+}
+
+.project-description {
+    font-size: 20px;
+    display: inline-block;
+    vertical-align: top;
+    padding: 50px;
+    line-height: 35px;
+}
+
+.project-description {
+    list-style-position: inside;
+}

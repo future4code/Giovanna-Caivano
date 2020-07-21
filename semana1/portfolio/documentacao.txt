@@ -1,0 +1,30 @@
+1) texto descritivo - done
+2) foto - pendente
+3) Lista de instituições de ensino e empregadores prévios (incluir a Labenu) - done
+4) Galeria de projetos de software que já trabalhou. Deve haver uma maneira de interagir com essa galeria de projetos e abrir uma página que você deve criar para cada projeto. - done
+5) Uma página para cada projeto do item anterior. Essa página deve ter, pelo menos, uma imagem do projeto, um título, uma descrição e uma lista de tecnologias utilizadas. Por enquanto, você pode usar os projetos do curso, incluindo o projeto de seleção.
+    - Sistema Loja Hogwarts
+        descrição: Melhoria da estrutura do Sistema da Loja Hogwarts e estilização das páginas.
+        tecnologias: HTML e CSS
+    - Code Pen
+        descrição: biblioteca pessoal com miniprojetos feitos anteriormente e exemplos de código em css, principalmente. Ainda em construção.
+    - Python OO - inventário de filmes, criação de contas bancárias e jogos
+        descrição: Projetos feitos para treino de código em Python com desenvolvimento orientado a objetos. O projeto de inventário de filmes ainda está sendo desenvolvido e é apenas uma remember do aprendizado do projeto de criação de contas.
+        Os jogos também foram criados para exercício da linguagem - jogo de adivinhação e jogo da forca.
+        tecnologias: pyhton
+    - Barbearia Alura
+        descrição: Site criado para uma Barbearia hipotética, com as páginas: home, produtos e contato.
+        tecnologias: HTML e CSS.
+    - Jogos
+        descrição: Releituras de jogos clássicos com p5 WebEditor - Pong e Freeway - para exercício da lógica de programação.
+        tecnologias: HTML, CSS e JS
+    - Calculadora de IMC
+        descricao: Calculadora simples de IMC 
+6) Uma lista de habilidades que você possui. Técnicas e Comportamentais. Para cada habilidade, coloque um breve texto, descrevendo um ponto forte seu que justifique o destaque. - done
+7) Um formulário para contato. Ele deve receber nome, e-mail e texto. Nessa etapa o form não precisa interagir com o usuário. - done
+8) Uma lista de redes sociais e links seus para contato. LinkedIn, GitHub, E-mail, etc.
+    Ref: https://www.w3schools.com/tags/tryit.asp?filename=tryhtml_link_mailto - done
+9) Um menu na parte superior da tela com links para as demais áreas do portfólio.
+    Ref: https://www.w3schools.com/howto/howto_js_topnav.asp - done
+
+VISUAL & CÓDIGO são importantes
