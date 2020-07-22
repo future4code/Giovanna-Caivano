@@ -1,0 +1,88 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+#main-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+
+}
+
+#first-block {
+    background-color: red;
+    width: 100vw;
+    height: 15vh;
+    margin-bottom: 1vh;
+}
+
+#second-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100vw;
+    height: 28vh;
+}
+
+#third-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100vw;
+    height: 38vh;
+}
+
+#fourth-block {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100vw;
+    height: 15vh;
+}
+
+.blue-block {
+    background-color: blue;
+    width: 33vw;
+    height: 48%;
+}
+
+.yellow-block {
+    background-color: yellow;
+    width: 33vw;
+    height: 48%;
+}
+
+.green-block {
+    background-color: green;
+    width: 33vw;
+    height: 48%;
+}
+
+.black-block {
+    background-color: black;
+    color: white;
+    width: 49vw;
+}
+
+.white-block {
+    background-color: white;
+    width: 33vw;
+    height: 90%;
+
+}
+
+.blue-block,
+.yellow-block,
+.green-block,
+.white-block {
+    width: 30%;
+    border: solid 1px;
+}
+
+/* 
+@media screen and (min-device-width: 421px) and (max-device-width: 800px) {}
+
+@media screen and (max-device-width: 420px) {} */
