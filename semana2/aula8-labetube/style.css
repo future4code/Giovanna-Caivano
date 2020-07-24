@@ -59,7 +59,8 @@ footer {
 
 footer>h1 {
     text-align: center;
-    color: cornsilk;padding: 20px;
+    color: cornsilk;
+    padding: 20px;
 }
 
 /*CSS das páginas de detalhe do vídeo*/
@@ -71,7 +72,7 @@ footer>h1 {
 
 
 .video-page>div {
-    width: 70%;
+    width: 65%;
     margin: auto;
     display: flex;
     flex-direction: column;
@@ -114,6 +115,37 @@ footer>h1 {
 
     footer>h1 {
         font-size: 1em;
+        height: auto;
+    }
+
+    .video-page>div {
+        width: 85%;
+    }
+
+    .video-footer {
+        position: absolute;
+    }
+}
+
+@media screen and (min-width: 421px) and (max-width: 800px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        grid-gap: 10px;
+        padding: 0;
+    }
+
+    header {
+        margin-bottom: 15px;
+    }
+
+    footer {
+        position: static;
+        margin-top: 15px;
+    }
+
+    footer>h1 {
+        font-size: 1.5em;
         height: auto;
     }
 
