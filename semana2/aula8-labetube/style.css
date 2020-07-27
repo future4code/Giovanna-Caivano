@@ -1,0 +1,159 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+header {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: darkorange;
+}
+
+header>h1 {
+    margin: 20px;
+}
+
+header>input {
+    margin: 20px;
+    padding: 10px;
+}
+
+main {
+    width: 90%;
+    margin: auto;
+    padding: 30px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.video-card {
+    text-align: center;
+    border: solid black 1px;
+}
+
+.video-mini {
+    width: 100%; 
+    height: 100%;
+}
+
+footer {
+    width: 100%;
+    height: 10%;
+    position: absolute;
+    bottom: 0;
+    background-color: black;
+}
+
+footer>h1 {
+    text-align: center;
+    color: cornsilk;
+    padding: 20px;
+}
+
+/*CSS das páginas de detalhe do vídeo*/
+
+.video-page {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.video-page>div {
+    width: 65%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.video-title {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.video-detail {
+    width: 100%;
+}
+
+@media screen and (max-width: 420px) {
+    main {
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(8, 1fr);
+        grid-gap: 5px;
+        padding: 0;
+    }
+
+    header {
+        margin-bottom: 10px;
+    }
+
+    header>h1 {
+        font-size: 1.5em;
+    }
+
+    header>input {
+        margin: 10px;
+        padding: 5px;
+    }
+
+    footer {
+        position: static;
+        margin-top: 10px;
+    }
+
+    footer>h1 {
+        font-size: 1em;
+        height: auto;
+    }
+
+    .video-page>div {
+        width: 85%;
+    }
+
+    .video-footer {
+        position: absolute;
+    }
+}
+
+@media screen and (min-width: 421px) and (max-width: 800px) {
+    main {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: repeat(4, 1fr);
+        grid-gap: 10px;
+        padding: 0;
+    }
+
+    header {
+        margin-bottom: 15px;
+    }
+
+    footer {
+        position: static;
+        margin-top: 15px;
+    }
+
+    footer>h1 {
+        font-size: 1.5em;
+        height: auto;
+    }
+
+    .video-page>div {
+        width: 85%;
+    }
+
+    .video-footer {
+        position: absolute;
+    }
+}
