@@ -13,10 +13,11 @@ let pcPoints = []
 let printPcHand = ""
 let printPcPoints = 0
 
+
 if (play) {
    console.log("Vamos jogar!!!")
 
-      //RODADA
+   //RODADA
    //sorteia 2 cartas para o jogador
    for (let i=0; i <=2; i++) {
       let carta = comprarCarta()
