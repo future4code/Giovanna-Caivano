@@ -15,7 +15,7 @@
             <h1>Controlador de despesas</h1>
             <h2>Cadastrar despesa</h2>
     
-            <form action="">
+            <form action=".">
                 <label for="expend-ammount">Valor:</label>
                 <input type="number" id="expend-ammount" value="">
                 
@@ -54,13 +54,15 @@
                 <input type="text" id="filter-max">
                 
                 <button onclick="filter()">Filtrar</button>
-                <button onabort="cleanFilters()">Limpar filtros</button>
+                <button onclick="cleanFilters()">Limpar filtros</button>
+                <button onclick="sortRegisters()">Ordenar despesas</button>
             </form>
         </section>
     
         <section id="full-statement">
             <h1>Extrato</h1>
             <h2>Valor Total:</h2>
+            <p id="total-ammount"></p>
         </section>
     </main>
     <section id="expeditures-list">

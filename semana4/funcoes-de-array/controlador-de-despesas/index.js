@@ -2,6 +2,7 @@
 const xArray = []
 const xList = document.getElementById("expeditures-list")
 const yList = document.getElementById("filtered-list")
+const totalAmmountDisplay = document.getElementById("total-ammount")
 
 //funções
 function submitExpenditure() {
@@ -27,8 +28,21 @@ function submitExpenditure() {
         xDescript.value = ""
     
         loadExpenditure(xRegister, xList)
+
     }
-    console.log(xArray)
+    
+    const calculationArray = xArray.map((expenditure,index,array) => {
+        return expenditure.ammount
+    })
+    
+    function getSum(total,num) {
+        return total + num
+    }
+
+    let totalAmmount = calculationArray.reduce(getSum,0)
+
+    totalAmmountDisplay.innerHTML = totalAmmount
+    
     event.preventDefault()
 }
 
@@ -39,7 +53,7 @@ function loadExpenditure(xRegister, xList) {
 function filter() {
     const minAmmount = document.getElementById("filter-min").value
     const maxAmmount = document.getElementById("filter-max").value
-    
+
     const tmpArray = xArray.filter((expenditure, index, array) => {
         if (expenditure.ammount > Number(minAmmount) && expenditure.ammount < Number(maxAmmount)) {
             return true
@@ -56,12 +70,26 @@ function filter() {
 }
 
 function cleanFilters() {
-    event.preventDefault()
     
-    const minAmmount = document.getElementById("filter-min").value
-    const maxAmmount = document.getElementById("filter-max").value
+    const minAmmountElement = document.getElementById("filter-min")
+    const maxAmmountElement = document.getElementById("filter-max")
+    
+    minAmmountElement.value = ""
+    maxAmmountElement.value = ""
+    
+    event.preventDefault()
+}
 
-    minAmmount.value = ""
-    maxAmmount.value = ""
+function sortRegisters() {
+    xArray.sort(function(a, b) {
+        return a.ammount - b.ammount
+    })
 
+    xList.innerHTML = ""
+
+    xArray.forEach((expenditure, index, array) => {
+        loadExpenditure(expenditure, xList)
+    })
+
+    event.preventDefault()
 }
