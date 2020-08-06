@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    
+    <link rel="stylesheet" href="./index.css">
+    <script src="./index.js" defer></script>
+    <title>Controle Financeiro</title>
+</head>
+<body>
+    <main id="main-container">
+        <section id="expend-subscription">
+            <h1>Controlador de despesas</h1>
+            <h2>Cadastrar despesa</h2>
+    
+            <form action="">
+                <label for="expend-ammount">Valor:</label>
+                <input type="number" id="expend-ammount" value="">
+                
+                <label for="expend-type">Tipo de despesa:</label>
+                <select name="expend-type" id="expend-type">
+                    <option value="casa">Casa</option>
+                    <option value="mercado">Mercado</option>
+                    <option value="viagem">Viagem</option>
+                    <option value="lazer">Lazer</option>
+                    <option value="outros">Outros</option>
+                </select>
+    
+                <label for="expend-description">Descrição:</label>
+                <input type="text" id="expend-description" value="">
+    
+                <button onclick="submitExpenditure()">Cadastrar Despesa</button>
+            </form>
+        </section>
+        
+        <section id="expend-detail">
+            <h1>Despesas detalhadas</h1>
+            <form action="">
+                <label for="expend-type">Tipo de despesa:</label>
+                <select name="expend-type" id="expend-type">
+                    <option value="casa">Casa</option>
+                    <option value="casa">Mercado</option>
+                    <option value="casa">Viagem</option>
+                    <option value="casa">Lazer</option>
+                    <option value="casa">Outros</option>
+                </select>
+                
+                <label for="filter-min">Valor Mínimo:</label>
+                <input type="text" id="filter-min">
+                
+                <label for="filter-max">Valor Máximo:</label>
+                <input type="text" id="filter-max">
+                
+                <button onclick="filter()">Filtrar</button>
+                <button onabort="cleanFilters()">Limpar filtros</button>
+            </form>
+        </section>
+    
+        <section id="full-statement">
+            <h1>Extrato</h1>
+            <h2>Valor Total:</h2>
+        </section>
+    </main>
+    <section id="expeditures-list">
+        <h1>Lista de despesas registradas:</h1>
+    </section>
+    <section id="filtered-list">
+        <h1>Lista filtrada:</h1>
+    </section>
+</body>
+</html>
