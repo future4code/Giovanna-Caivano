@@ -234,4 +234,150 @@ function anonimizarPessoa(objeto) {
 console.log(anonimizarPessoa(pessoaQualquer))
 */
 
+//EXERCÍCIOS DE FUNÇÕES DE ARRAY
+/* EXERCÍCIO 1
+const pessoas = [
+	{ nome: "Pedro", idade: 20 },
+	{ nome: "João", idade: 10 },
+	{ nome: "Paula", idade: 12 },
+	{ nome: "Artur", idade: 89 } 
+]
+//1.a.
+console.log(selecionaAdultos(pessoas))
+function selecionaAdultos(array) {
+    const adultos = array.filter((pessoa, index, array) => {
+        if(pessoa.idade >= 20) {
+            return true
+        }
+        return false
+    })
+    return adultos
+}
+//1.b
+console.log(selecionaJovens(pessoas))
+function selecionaJovens(array) {
+    const jovens = array.filter((pessoa, index, array) => {
+        if(pessoa.idade < 20) {
+            return true
+        }
+        return false
+    })
+    return jovens
+}
+*/
 
+/* EXERCÍCIO 2
+const array = [1, 2, 3, 4, 5, 6]
+//2.a.
+function duplicaArray(array) {
+    const arrayDois = array.map((elemento) => {
+        return elemento*2
+    })
+    return arrayDois
+}
+console.log(duplicaArray(array))
+
+//2.b.
+function triplicaArrayString(array) {
+    const arrayTemporario = array.map((elemento) => {
+        return elemento*3
+    })
+    const arrayTres = arrayTemporario.map((elemento) => {
+        return elemento.toString()
+    })
+    return arrayTres
+}
+console.log(triplicaArrayString(array))
+
+//2.c.
+function arrayParImpar(array){
+    const novoArray = []
+    for (elemento of array) {
+        if(elemento%2 === 0) {
+            novoArray.push(`${elemento} é par`)
+        } else {
+            novoArray.push(`${elemento} é impar`)
+        }
+    }
+    return novoArray
+}
+console.log(arrayParImpar(array))
+*/
+
+/* EXERCÍCIO 3
+const pessoas = [
+	{ nome: "Paula", idade: 12, altura: 1.8},
+	{ nome: "João", idade: 20, altura: 1.3},
+	{ nome: "Pedro", idade: 15, altura: 1.9},
+	{ nome: "Luciano", idade: 22, altura: 1.8},
+	{ nome: "Artur", idade: 10, altura: 1.2},
+	{ nome: "Soter", idade: 70, altura: 1.9}
+]
+
+console.log(liberaMontanhaRussa(pessoas))
+function liberaMontanhaRussa(array) {
+    const pessoasLiberadas = array.filter((pessoa) => {
+        if(pessoa.altura>=1.5 && pessoa.idade>14 && pessoa.idade<60) {
+            return true
+        }
+        return false
+    })
+    return pessoasLiberadas
+}
+
+console.log(proibeMontanhaRussa(pessoas))
+function proibeMontanhaRussa(array) {
+    const pessoasBarradas = array.filter((pessoa) => {
+        if(pessoa.altura<1.5 || pessoa.idade<14 || pessoa.idade>60) {
+            return true
+        }
+        return false
+    })
+    return pessoasBarradas
+}
+*/
+
+/*EXERCÍCIO 4
+const consultas = [
+	{ nome: "João", genero: "masculino", cancelada: true, dataDaConsulta: "01/10/2019" },
+	{ nome: "Pedro", genero: "masculino", cancelada: false, dataDaConsulta: "02/10/2019" },
+	{ nome: "Paula", genero: "feminino", cancelada: true, dataDaConsulta: "03/11/2019" },
+	{ nome: "Márcia", genero: "feminino", cancelada: false, dataDaConsulta: "04/11/2019" }
+]
+
+const emailArray = consultas.map((consultas) => {
+    let intro = "Sra."
+    let lembrar = "lembrá-la"
+    let msg
+    if (consultas.genero === "masculino") {
+        intro = "Sr."
+        lembrar = "lembrá-lo"
+    }
+    if(consultas.cancelada){
+        msg = `Olá, ${intro} ${consultas.nome}. Infelizmente, sua consulta marcada para o dia ${consultas.dataDaConsulta} foi cancelada. Se quiser, pode entrar em contato conosco para remarcá-la`
+    } else {
+        msg = `Olá, ${intro} ${consultas.nome}. Estamos enviando esta mensagem para ${lembrar} da sua consulta no dia ${consultas.dataDaConsulta}. Por favor, acuse o recebimento deste e-mail.`
+    }
+    return msg
+})
+console.log(emailArray)
+*/
+
+/*EXERCÍCIO 4
+const contas = [
+	{ cliente: "João", saldoTotal: 1000, compras: [100, 200, 300] },
+	{ cliente: "Paula", saldoTotal: 7500, compras: [200, 1040] },
+	{ cliente: "Pedro", saldoTotal: 10000, compras: [5140, 6100, 100, 2000] },
+	{ cliente: "Luciano", saldoTotal: 100, compras: [100, 200, 1700] },
+	{ cliente: "Artur", saldoTotal: 1800, compras: [200, 300] },
+	{ cliente: "Soter", saldoTotal: 1200, compras: [] }
+]
+
+console.log(distribuiDinheiro(contas))
+function distribuiDinheiro(array) {
+    array.forEach((cliente) => {
+        cliente.saldoTotal += 100000
+    })
+    return array
+}
+*/
