@@ -7,3 +7,14 @@
 #main-container>section {
     width: 30%;
 }
+
+#list-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+#list-container>section {
+    width: 30%;
+}
+

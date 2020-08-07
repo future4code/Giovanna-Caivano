@@ -3,6 +3,7 @@ const xArray = []
 const xList = document.getElementById("expeditures-list")
 const yList = document.getElementById("filtered-list")
 const totalAmmountDisplay = document.getElementById("total-ammount")
+const totalAmmountByType = document.getElementById("type-list")
 
 //funções
 function submitExpenditure() {
@@ -31,17 +32,9 @@ function submitExpenditure() {
 
     }
     
-    const calculationArray = xArray.map((expenditure,index,array) => {
-        return expenditure.ammount
-    })
-    
-    function getSum(total,num) {
-        return total + num
-    }
+    calcTotalAmmount()
 
-    let totalAmmount = calculationArray.reduce(getSum,0)
-
-    totalAmmountDisplay.innerHTML = totalAmmount
+    loadTypeList()
     
     event.preventDefault()
 }
@@ -92,4 +85,87 @@ function sortRegisters() {
     })
 
     event.preventDefault()
+}
+
+function calcTotalAmmount() {
+    const calculationArray = xArray.map((expenditure,index,array) => {
+        return expenditure.ammount
+    })
+    function getSum(total,num) {
+        return total + num
+    }
+    let totalAmmount = calculationArray.reduce(getSum,0)
+    totalAmmountDisplay.innerHTML = totalAmmount
+
+    event.preventDefault()
+}
+
+function loadTypeList() {
+    //cria array de despesas da casa e depois array com valores
+    //CASA
+    const homeArray = xArray.filter((expenditure,index,array) => {
+        if(expenditure.type === "casa") {
+            return true
+        }
+        return false
+    })
+    const homeArrayAmmount = homeArray.map((homeExpenditure, index, array) => {
+        return homeExpenditure.ammount
+    })
+    
+    //MERCADO
+    const mktArray = xArray.filter((expenditure,index,array) => {
+        if(expenditure.type === "mercado") {
+            return true
+        }
+        return false
+    })
+    const mktArrayAmmount = mktArray.map((homeExpenditure, index, array) => {
+        return homeExpenditure.ammount
+    })
+    
+    //VIAGEM
+    const tripArray = xArray.filter((expenditure,index,array) => {
+        if(expenditure.type === "viagem") {
+            return true
+        }
+        return false
+    })
+    const tripArrayAmmount = tripArray.map((homeExpenditure, index, array) => {
+        return homeExpenditure.ammount
+    })
+
+    //LAZER
+    const leisureArray = xArray.filter((expenditure,index,array) => {
+        if(expenditure.type === "lazer") {
+            return true
+        }
+        return false
+    })
+    const leisureArrayAmmount = leisureArray.map((homeExpenditure, index, array) => {
+        return homeExpenditure.ammount
+    })
+
+    //OUTROS
+    const otherArray = xArray.filter((expenditure,index,array) => {
+        if(expenditure.type === "outros") {
+            return true
+        }
+        return false
+    })
+    const otherArrayAmmount = otherArray.map((homeExpenditure, index, array) => {
+        return homeExpenditure.ammount
+    })
+
+    //soma e imprime despesas da casa
+    function getSum(total,num) {
+        return total + num
+    }
+    let homeTotalAmmount = homeArrayAmmount.reduce(getSum, 0)
+    let mktTotalAmmount = mktArrayAmmount.reduce(getSum, 0)
+    let tripTotalAmmount = tripArrayAmmount.reduce(getSum, 0)
+    let leisureTotalAmmount = leisureArrayAmmount.reduce(getSum, 0)
+    let otherTotalAmmount = otherArrayAmmount.reduce(getSum, 0)
+
+    totalAmmountByType.innerHTML = `<div><p>Casa ------- ${homeTotalAmmount}</p><br><p>Mercado ------- ${mktTotalAmmount}</p><br><p>Viagem ------- ${tripTotalAmmount}</p><br><p>Lazer ------- ${leisureTotalAmmount}</p><br><p>Outros ------- ${otherTotalAmmount}</p></div>`
 }
