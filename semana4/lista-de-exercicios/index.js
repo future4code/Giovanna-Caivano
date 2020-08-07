@@ -128,3 +128,60 @@ function comparaDoisNúmeros(a,b) {
 }
 comparaDoisNúmeros(15,30)
 */
+
+//EXERCÍCIOS DE FUNÇÕES
+/* EXERCÍCIO 1
+const arrayDeNumeros = [10, 20, 30, 40, 50, 60]
+imprimeSegundoMaiorMenor(arrayDeNumeros)
+
+function imprimeSegundoMaiorMenor(array) {
+    let min = Infinity
+    let max = 0
+    
+    encontraExtremos(array, min, max)
+    extraiExtremos(array, min, max)
+
+    for (numero of array) {
+        if (numero < min) {
+            min = numero
+        }
+        if (numero > max) {
+            max = numero
+        }
+    }
+
+    console.log(min,max)
+}
+
+function encontraExtremos(array,min, max) {
+    for (numero of array) {
+        if (numero < min) {
+            min = numero
+        }
+        if (numero > max) {
+            max = numero
+        }
+    }
+    
+    extraiExtremos(array, min, max)
+}
+
+function extraiExtremos(array, min, max){
+    for (i=0; i<array.length;i++) {
+        if (array[i] === min) {
+            array.splice(i, 1)
+        }
+        if (array[i] === max) {
+            array.splice(i, 1)
+        }
+    }
+    return array
+}
+*/
+
+/* EXERCÍCIO 2
+const mostraMsg = function(msg) {
+    alert(msg)
+}
+const hello = mostraMsg("Hello Future4")
+*/
