@@ -45,3 +45,86 @@ Valor impresso no console:
 -10
 1590
 */
+
+//EXERCÍCIOS DE LÓGICA DE PROGRAMAÇÃO
+/* EXERCÍCIO 1
+Pode-se iterar uma lista por meio de loops.
+O for...of, for e while.
+const array = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+for (number of array) {
+    console.log(number)
+}
+
+for (i=0; i<array.length; i++) {
+    console.log(array[i])
+}
+
+let i = 0
+while (i<array.length){
+    console.log(array[i])
+    i++
+}
+*/
+
+/* EXERCÍCIO 2
+Valores das lógicas:
+a) false
+b) true
+c) true
+d) true
+e) true
+*/
+
+/* EXERCÍCIO 3
+O código não funciona e gerará um loop infinito pois a condição do laço de repetição while nunca será verdadeira, pois não há incremento da variável i.
+Código corrigido:
+const quantidadeDeNumerosPares = 5
+let i = 0
+while(i <= quantidadeDeNumerosPares) {
+  console.log(i*2)
+  i++
+}
+*/
+
+/* EXERCÍCIO 4
+function verificaTriangulo(a,b,c) {
+    let tipoDoTriangulo = "Escaleno"
+    if (a === b && b === c) {
+        return tipoDoTriangulo = "Equilátero"
+    } else if (a === b || a === c || b === c) {
+        return tipoDoTriangulo = "Isóceles"
+    } else {
+        return tipoDoTriangulo
+    }
+}
+console.log(verificaTriangulo(10,9,5))
+*/
+
+/* EXERCÍCIO 5
+function comparaDoisNúmeros(a,b) {
+    if (a > b) {
+        console.log("O maior é",a)
+    } else {
+        console.log("O maior é",b)
+    }
+    
+    if (a%b === 0) {
+        console.log(`${a} é divisível por ${b}`)
+        console.log(`${b} não é divisível por ${a}`)
+    } else if (b%a === 0) {
+        console.log(`${b} é divisível por ${a}`)
+        console.log(`${a} não é divisível por ${b}`)
+    } else {
+        console.log(`${a} não é divisível por ${b} e vice-versa`)
+    }
+
+    let diferenca = a-b
+
+    if(diferenca <0) {
+        diferenca = diferenca*(-1)
+    }
+    console.log(`A diferença entre eles é ${diferenca}`)
+}
+comparaDoisNúmeros(15,30)
+*/
