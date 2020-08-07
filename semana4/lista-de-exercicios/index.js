@@ -185,3 +185,53 @@ const mostraMsg = function(msg) {
 }
 const hello = mostraMsg("Hello Future4")
 */
+
+//EXERCÍCIOS DE OBJETOS
+/* EXERCÍCIO 1
+No JavaScript, arrays e objetos são variáveis de tipo não primitivo.
+Arrays são variáveis que contém "listas" de elementos, não ordenados.
+Objetos são variáveis que contém diversos valores, assim como o array, porém, são valores nomeados - que são suas propriedades ou métodos (funções próprias daquele objeto).
+*/
+
+/* EXERCÍCIO 2
+function criaRetangulo(lado1, lado2) {
+    const retangulo = {
+        lado1: lado1,
+        lado2: lado2,
+        perimetro: 2*(lado1+lado2),
+        area: lado1*lado2
+    }
+
+    return retangulo
+}
+console.log(criaRetangulo(2,3))
+*/
+
+/* EXERCÍCIO 3
+// const filmeFavorito = {
+//     titulo: "John Wick",
+//     ano: 2014,
+//     diretor: "Chad Stahelski",
+//     elenco: ["Keanu Reaves, Ian McShane, Lance Reddick"]
+// }
+// console.log(`Venha assistir ao filme ${filmeFavorito.nome}, de ${filmeFavorito.ano}, dirigido por ${filmeFavorito.diretor} e estrelado por ${filmeFavorito.elenco}.`)
+*/
+
+/* EXERCÍCIO 4
+const pessoaQualquer = {
+    nome: "Maria Carolina",
+    idade: 40,
+    email: "mariacarolina@gmail.com",
+    endereço: "Rua 5, 200 - Pinheiros, SP"
+}
+function anonimizarPessoa(objeto) {
+    const novaPessoa = {
+        ...objeto,
+        nome: "ANÔNIMO"
+    }
+    return novaPessoa
+}
+console.log(anonimizarPessoa(pessoaQualquer))
+*/
+
+
