@@ -40,15 +40,16 @@ function submitExpenditure() {
 }
 
 function loadExpenditure(xRegister, xList) {
-    xList.innerHTML += `<div><p>Valor: ${xRegister.ammount}</p><p>Tipo de despesa: ${xRegister.type}</p><p>Descrição: ${xRegister.description}</p></div>`
+    xList.innerHTML += `<div><p><b>Valor</b>: ${xRegister.ammount}</p><p><b>Tipo de despesa</b>: ${xRegister.type}</p><p><b>Descrição</b>: ${xRegister.description}</p></div>`
 }
 
 function filter() {
-    const minAmmount = document.getElementById("filter-min").value
-    const maxAmmount = document.getElementById("filter-max").value
+
+    const minAmmount = document.getElementById("filter-min")
+    const maxAmmount = document.getElementById("filter-max")
 
     const tmpArray = xArray.filter((expenditure, index, array) => {
-        if (expenditure.ammount > Number(minAmmount) && expenditure.ammount < Number(maxAmmount)) {
+        if (expenditure.ammount > Number(minAmmount.value) && expenditure.ammount < Number(maxAmmount.value)) {
             return true
         }
         return false
@@ -58,17 +59,15 @@ function filter() {
         loadExpenditure(expenditure, yList)
     })
 
-    event.preventDefault()
+    minAmmount.value = ""
+    maxAmmount.value = ""
 
+    event.preventDefault()
 }
 
 function cleanFilters() {
     
-    const minAmmountElement = document.getElementById("filter-min")
-    const maxAmmountElement = document.getElementById("filter-max")
-    
-    minAmmountElement.value = ""
-    maxAmmountElement.value = ""
+    yList.innerHTML = ""
     
     event.preventDefault()
 }
@@ -104,7 +103,7 @@ function loadTypeList() {
     //cria array de despesas da casa e depois array com valores
     //CASA
     const homeArray = xArray.filter((expenditure,index,array) => {
-        if(expenditure.type === "casa") {
+        if(expenditure.type === "Casa") {
             return true
         }
         return false
@@ -115,7 +114,7 @@ function loadTypeList() {
     
     //MERCADO
     const mktArray = xArray.filter((expenditure,index,array) => {
-        if(expenditure.type === "mercado") {
+        if(expenditure.type === "Mercado") {
             return true
         }
         return false
@@ -126,7 +125,7 @@ function loadTypeList() {
     
     //VIAGEM
     const tripArray = xArray.filter((expenditure,index,array) => {
-        if(expenditure.type === "viagem") {
+        if(expenditure.type === "Viagem") {
             return true
         }
         return false
@@ -137,7 +136,7 @@ function loadTypeList() {
 
     //LAZER
     const leisureArray = xArray.filter((expenditure,index,array) => {
-        if(expenditure.type === "lazer") {
+        if(expenditure.type === "Lazer") {
             return true
         }
         return false
@@ -148,7 +147,7 @@ function loadTypeList() {
 
     //OUTROS
     const otherArray = xArray.filter((expenditure,index,array) => {
-        if(expenditure.type === "outros") {
+        if(expenditure.type === "Outros") {
             return true
         }
         return false

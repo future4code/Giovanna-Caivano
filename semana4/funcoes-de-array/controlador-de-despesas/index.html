@@ -6,26 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     
     <link rel="stylesheet" href="./index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Shadows+Into+Light&display=swap" rel="stylesheet">
     <script src="./index.js" defer></script>
     <title>Controle Financeiro</title>
 </head>
 <body>
     <main id="main-container">
+        <h1>Controlador de despesas</h1>
         <section id="expend-subscription">
-            <h1>Controlador de despesas</h1>
-            <h2>Cadastrar despesa</h2>
+            <div class="title">
+                <h2>Cadastrar despesa</h2>
+            </div>
     
-            <form action=".">
+            <form action="." id="form-subscription">
                 <label for="expend-ammount">Valor:</label>
                 <input type="number" id="expend-ammount" value="">
                 
                 <label for="expend-type">Tipo de despesa:</label>
                 <select name="expend-type" id="expend-type">
-                    <option value="casa">Casa</option>
-                    <option value="mercado">Mercado</option>
-                    <option value="viagem">Viagem</option>
-                    <option value="lazer">Lazer</option>
-                    <option value="outros">Outros</option>
+                    <option value="Casa">Casa</option>
+                    <option value="Mercado">Mercado</option>
+                    <option value="Viagem">Viagem</option>
+                    <option value="Lazer">Lazer</option>
+                    <option value="Outros">Outros</option>
                 </select>
     
                 <label for="expend-description">Descrição:</label>
@@ -36,15 +39,17 @@
         </section>
         
         <section id="expend-detail">
-            <h1>Despesas detalhadas</h1>
-            <form action="">
+            <div class="title">
+                <h1>Despesas detalhadas</h1>
+            </div>
+            <form action="" id="form-filter">
                 <label for="expend-type">Tipo de despesa:</label>
                 <select name="expend-type" id="expend-type">
-                    <option value="casa">Casa</option>
-                    <option value="mercado">Mercado</option>
-                    <option value="viagem">Viagem</option>
-                    <option value="lazer">Lazer</option>
-                    <option value="outros">Outros</option>
+                    <option value="Casa">Casa</option>
+                    <option value="Mercado">Mercado</option>
+                    <option value="Viagem">Viagem</option>
+                    <option value="Lazer">Lazer</option>
+                    <option value="Outros">Outros</option>
                 </select>
                 
                 <label for="filter-min">Valor Mínimo:</label>
@@ -60,17 +65,23 @@
         </section>
     
         <section id="full-statement">
-            <h1>Extrato</h1>
-            <h2>Valor Total:</h2>
+            <div class="title">
+                <h1>Extrato</h1>
+                <h2>Valor Total:</h2>
+            </div>
             <p id="total-ammount"></p>
         </section>
     </main>
     <section id="list-container">
         <section id="expeditures-list">
-            <h1>Lista de despesas registradas:</h1>
+            <div class="title">
+                <h1>Lista de despesas registradas:</h1>
+            </div>
         </section>
         <section id="filtered-list">
-            <h1>Lista filtrada:</h1>
+            <div class="title">
+                <h1>Lista filtrada:</h1>
+            </div>
         </section>
         <section id="type-list">
             

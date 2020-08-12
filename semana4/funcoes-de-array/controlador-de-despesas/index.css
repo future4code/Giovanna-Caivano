@@ -1,3 +1,14 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 15px;
+}
+
+main>h1 {
+    font-family: 'Shadows Into Light', cursive;
+    width: 100%;
+    padding: 0 40px;
+    text-transform: uppercase;
+}
 #main-container {
     display: flex;
     flex-wrap: wrap;
@@ -7,6 +18,47 @@
 #main-container>section {
     width: 30%;
 }
+
+.title {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 20px;
+}
+
+#form-subscription {
+    width: 60%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 4;
+    row-gap: 5px;
+    padding: 30px;
+}
+
+#form-subscription>label {
+    grid-column: 1/2;
+}
+
+#form-subscription>button {
+    grid-column: 2/3;
+    grid-row: 4;
+}
+#form-filter {
+    width: 80%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 4;
+    row-gap: 5px;
+    padding: 30px;
+}
+
+#form-filter>label {
+    grid-column: 1/2;
+}
+
+#form-filter>button {
+    grid-row: 4;
+    margin: 0 2px;
+}
+
 
 #list-container {
     display: flex;
