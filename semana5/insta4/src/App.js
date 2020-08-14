@@ -41,11 +41,6 @@ class App extends React.Component {
         nomeUsuario: 'giovanna',
         fotoUsuario: 'https://picsum.photos/50/51',
         fotoPost: 'https://picsum.photos/200/151'
-      },
-      {
-        nomeUsuario: 'renato',
-        fotoUsuario: 'https://picsum.photos/50/52',
-        fotoPost: 'https://picsum.photos/200/152'
       }
     ],
     valorInputNome:"",
@@ -115,6 +110,9 @@ class App extends React.Component {
               <PostButton onClick={this.adicionaPost}>Post</PostButton>
           </PostForm>
           {listaDePosts}
+          <footer>
+          Ícones feitos por <a href="https://www.flaticon.com/br/autores/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/br/" title="Flaticon"> www.flaticon.com</a>
+          </footer>
         </div>
     );
   }
