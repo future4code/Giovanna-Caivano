@@ -1,5 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
+import TitleH1 from './TitleH1'
+import PerguntaAberta from './PerguntaAberta'
+import PerguntaFechada from './PerguntaFechada'
 
 const Form1 = styled.div`
     margin: 0 auto;
@@ -7,29 +10,26 @@ const Form1 = styled.div`
     display: flex;
     flex-direction: column;
 `
-const MainTitle = styled.h1`
-    font-size: 30px;
-`
 
 class Etapa1 extends React.Component {
     
     render() {
         return (
             <Form1>
-                <MainTitle>ETAPA 1 - DADOS GERAIS</MainTitle>
-                <label for="name">1. Qual é o seu nome?</label>
+                <TitleH1 titulo={"ETAPA 1 - DADOS GERAIS"}/>
+                <PerguntaAberta pergunta={"1. Qual o seu nome?"} />
                 <input value="" type="text"/>
-                <label for="name">2. Qual é a sua idade?</label>
+                <PerguntaAberta pergunta={"2. Qual sua idade?"} />
                 <input value="" type="text"/>
-                <label for="name">3. Qual é o seu e-mail?</label>
+                <PerguntaAberta pergunta={"3. Qual é o seu e-mail?"} />
                 <input value="" type="text"/>
-                <label for="name">4. Qual é sua escolaridade?</label>
-                <select>
-                    <option>Ensino médio incompleto</option>
-                    <option>Ensino médio completo</option>
-                    <option>Ensino superior incompleto</option>
-                    <option>Ensino superior completo</option>
-                </select>
+                <PerguntaFechada 
+                    pergunta={"4. Qual é sua escolaridade?"}
+                    opçoes={[
+                        "Ensino médio completo",
+                        "Ensino superior incompleto",
+                        "Ensino médio incompleto",
+                        "Ensino superior completo"]} />
                 <button onClick={this.props.clickNext}>Próxima etapa</button>
             </Form1>
         )

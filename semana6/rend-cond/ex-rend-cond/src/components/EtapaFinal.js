@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import TitleH1 from './TitleH1'
 
 const MsgFinal = styled.div`
     margin: 0 auto;
@@ -7,17 +8,13 @@ const MsgFinal = styled.div`
     display: flex;
     flex-direction: column;
 `
-const MainTitle = styled.h1`
-    font-size: 30px;
-    text-transform: uppercase;
-`
 
 class EtapaFinal extends React.Component {
     
     render() {
         return (
             <MsgFinal>
-                <MainTitle>o formulário acabou</MainTitle>
+                <TitleH1 titulo={"o formulário acabou"}/>
                 <p>Muito obrigado por participar! Entraremos em contato!</p>
             </MsgFinal>
         )
