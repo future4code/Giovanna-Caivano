@@ -11,7 +11,7 @@ class App extends React.Component {
 
   clickNextFunction = () => {
     this.setState({
-      currentPage: this.state.currentPage += 1
+      currentPage: this.state.currentPage + 1
     })
   }
   render() {
