@@ -1,5 +1,6 @@
 import React from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import {MainContainer, MainTitle, InputContainer, BigButton, StandardLabel} from './styled'
 
 class UserSubscription extends React.Component {
     state = {
@@ -36,20 +37,26 @@ class UserSubscription extends React.Component {
 
     render() {
         return (
-            <div>
-                <h1>Cadastrar novo usuário:</h1>
-                <label>Nome:</label>
-                <input
-                    value={this.state.userName}
-                    onChange={this.onChangeNameInput}
-                />
-                <label>E-mail:</label>
-                <input
-                    value={this.state.userEmail}
-                    onChange={this.onChangeEmailInput}
-                />
-                <button onClick={this.addUserToList}>Cadastrar</button>
-            </div>
+            <MainContainer>
+                <MainTitle>ENTRAR NA LISTA DE ESPERA</MainTitle>
+                <InputContainer>
+                    <StandardLabel>Nome:</StandardLabel>
+                    <input
+                        value={this.state.userName}
+                        onChange={this.onChangeNameInput}
+                    />
+                </InputContainer>
+                <InputContainer>
+                    <StandardLabel>E-mail:</StandardLabel>
+                    <input
+                        value={this.state.userEmail}
+                        onChange={this.onChangeEmailInput}
+                    />
+                </InputContainer>
+                <InputContainer>
+                    <BigButton onClick={this.addUserToList}>Cadastrar</BigButton>
+                </InputContainer>
+            </MainContainer>
         )
     }
 }

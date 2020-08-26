@@ -3,6 +3,7 @@ import './App.css';
 
 import UserList from './components/UserList'
 import UserSubscription from './components/UserSubscription'
+import { BigButton } from './components/styled'
 
 class App extends React.Component {
   state = {
@@ -17,7 +18,7 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <button onClick={this.alternatePage}>{this.state.changePage ? "Cadastro" : "Lista de Usuários" }</button>
+        <BigButton onClick={this.alternatePage}>{this.state.changePage ? "Cadastro" : "Lista de Usuários" }</BigButton>
     <div>{this.state.changePage ? <UserList/> : <UserSubscription/>}</div>
       </div>
     );
