@@ -38,7 +38,7 @@ class UserSubscription extends React.Component {
     render() {
         return (
             <MainContainer>
-                <MainTitle>ENTRAR NA LISTA DE ESPERA</MainTitle>
+                <MainTitle>Cadastrar Usuário</MainTitle>
                 <InputContainer>
                     <StandardLabel>Nome:</StandardLabel>
                     <input
