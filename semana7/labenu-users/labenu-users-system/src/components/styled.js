@@ -1,6 +1,6 @@
 import styled from 'styled-components'
  
-//styles for UserSubscription
+//styles for main container
 export const MainContainer = styled.div`
     width: 50%;
     margin: 50px auto;
@@ -28,9 +28,18 @@ export const MainTitle = styled.h1`
         font-size: 20px;
     }
 `
-    
+//styles for labels and inputs
 export const InputContainer = styled.div`
     width: 100%;
+`
+
+export const StandardLabel = styled.label`
+    margin: 2px;
+`
+
+//styles for buttons
+export const ButtonWrapper = styled.div`
+    padding: 10px;
 `
 
 export const BigButton = styled.button`
@@ -50,8 +59,21 @@ export const BigButton = styled.button`
     }
 `
 
-export const StandardLabel = styled.label`
-    margin: 2px;
+export const SmallButton = styled.button`
+    margin: 5px;
+    padding: 2px;
+    border-radius: 15px;
+    background-color: black;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 10px;
+    padding: 5px;
+
+    &:hover {
+        background-color: white;
+        color: black;
+    }
 `
 
 //styles for UserList
@@ -94,6 +116,7 @@ export const DeleteX = styled.span`
     }    
 `
 
+//styles for detail box
 export const DetailContainer = styled.div`
     width: 100%;
     padding: 20px;
@@ -102,23 +125,6 @@ export const DetailContainer = styled.div`
     @media (max-width: 900px) {
         padding: 5px;
         font-size: 15px;
-    }
-`
-
-export const SmallButton = styled.button`
-    margin: 5px;
-    padding: 2px;
-    border-radius: 15px;
-    background-color: black;
-    color: white;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 10px;
-    padding: 5px;
-
-    &:hover {
-        background-color: white;
-        color: black;
     }
 `
 
@@ -133,8 +139,4 @@ export const UserInfoTitle = styled.p`
 export const UserInfoText = styled.p`
     padding: 5px;
     margin: 0;
-`
-
-export const ButtonWrapper = styled.div`
-    padding: 10px;
 `

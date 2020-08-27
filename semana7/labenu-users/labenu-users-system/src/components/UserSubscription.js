@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import {MainContainer, MainTitle, InputContainer, BigButton, StandardLabel} from './styled'
 
+const baseURL = "https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/"
+
 class UserSubscription extends React.Component {
     state = {
         userName: "",
@@ -15,24 +17,22 @@ class UserSubscription extends React.Component {
         this.setState({ userEmail: e.target.value })
     }
 
-    addUserToList = () => {
+    addUserToList = async () => {
         const body = {
             name: this.state.userName,
             email: this.state.userEmail
         };
-
-        const request = axios.post("https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users", body, {
-            headers: {
-                Authorization: "giovanna-caivano-jackson"
-            }
-        });
-
-        request.then((answer) => {
+        try {
+            const response = await axios.post(baseURL, body, {
+                headers: {
+                    Authorization: "giovanna-caivano-jackson"
+                }
+            });
             alert("Novo usuário cadastrado com sucesso")
             this.setState({ userName: "", userEmail: "" })
-        }).catch((error) => {
+        } catch (error) {
             alert("Algo deu errado. Tente novamente.")
-        });
+        }
     }
 
     render() {

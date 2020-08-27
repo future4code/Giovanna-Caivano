@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { MainContainer, MainTitle, UserUnorderedList, InputContainer, StandardLabel, UserTag, UserName, DeleteX, DetailContainer, ButtonWrapper, SmallButton, UserInfo, UserInfoTitle, UserInfoText } from './styled'
 
+const baseURL = "https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/"
+
 class UserList extends React.Component {
     state = {
         usersList: [],
@@ -20,50 +22,44 @@ class UserList extends React.Component {
       this.setState({ searchName: e.target.value})
     }
 
-    pullFilteredList = () => {
+    pullFilteredList = async () => {
       const userName = this.state.searchName
-
-      const request = axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/search?name=${userName}`,
-      { 
-        headers: { 
-          Authorization: "giovanna-caivano-jackson"
-        }
-      })
-      request.then((answer) => {
-        this.setState({ usersList: answer.data })
-      }).catch((error) => {
+      try {
+        const response = await axios.get(`${baseURL}search?name=${userName}`,
+        { 
+          headers: { 
+            Authorization: "giovanna-caivano-jackson"
+          }
+        })
+        this.setState({ usersList: response.data })
+      } catch(error) {
         console.log(error)
-      })
+      }
     }
 
     //request to get all users
     pullUserList = async () => {
       try {
-        const response = await axios.get("https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users",
+        const response = await axios.get(baseURL,
         {
           headers: {
             Authorization: "giovanna-caivano-jackson"
           }
         });
-
         this.setState({ usersList: response.data })
-     
       } catch(error) {
-          console.log(error)
+          alert("Algo deu errado. Tente novamente.")
         }
     }       
     
     //delete user mechanism
     deleteUser = (id) => {
-      let confirm = prompt("Deseja mesmo remover este usuário? S/N")
-      console.log(confirm)
+      const confirm = window.confirm("Deseja mesmo remover este usuário?")
 
-      confirm = (confirm === null ? "n" : confirm.toLowerCase())
-
-      if(confirm === "n") {
+      if(!confirm) {
         alert("Ok!")
-      } else if (confirm === "s") {
-        const request = axios.delete(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${id}`, 
+      } else if (confirm) {
+        const request = axios.delete(`${baseURL}${id}`, 
           {
             headers: {
               Authorization: "giovanna-caivano-jackson"
@@ -82,20 +78,19 @@ class UserList extends React.Component {
     }
 
     //showing user details mechanism
-    showDetail = (id) => {
-      const request = axios.get(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${id}`,
-      {
-        headers: {
-          Authorization: "giovanna-caivano-jackson"
-        }
-      });
-  
-      request.then((answer) => {
-        this.state.userObject.id === id ? this.setState({ userDetail: false, userObject: "" }) : this.setState({ userDetail: true, userObject: answer.data })
-        console.log(answer.data.id)
-      }).catch((error) => {
+    showDetail = async (id) => {
+      try{
+        const response = await axios.get(`${baseURL}${id}`,
+        {
+          headers: {
+            Authorization: "giovanna-caivano-jackson"
+          }
+        });
+    
+        this.state.userObject.id === id ? this.setState({ userDetail: false, userObject: "" }) : this.setState({ userDetail: true, userObject: response.data })
+      } catch(error) {
         console.log(error)
-      })
+      }
     }
 
     closeDetail = () => {
@@ -125,7 +120,7 @@ class UserList extends React.Component {
             email: this.state.editEmail
           }
         
-        const request = axios.put(`https://us-central1-labenu-apis.cloudfunctions.net/labenusers/users/${id}`,
+        const request = axios.put(`${baseURL}${id}`,
         body,
         {
           headers: {
