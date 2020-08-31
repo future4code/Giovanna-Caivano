@@ -4,7 +4,8 @@ import Axios from 'axios'
 import PlaylistCard from './PlaylistCard.js'
 
 //styles
-import { MainContainer, SubTitle } from './styles'
+import { MainContainer, SubTitle, SmallButton } from './styles'
+import TrackCard from './TrackCard.js'
 
 const baseURL = 'https://us-central1-labenu-apis.cloudfunctions.net/labefy/'
 const credentials = 'giovanna-caivano-jackson'
@@ -13,7 +14,8 @@ export default class ShowPlaylists extends React.Component {
     state = {
         playlistsArray: [],
         tracksArray: [],
-        trackDetail: false
+        trackDetail: false,
+        clickedPlaylist: ""
     }
 
     componentDidMount() {
@@ -32,6 +34,7 @@ export default class ShowPlaylists extends React.Component {
                 }
             })
             this.setState({ playlistsArray: response.data.result.list })
+            
         }catch(error){
             console.log(error)
         }
@@ -44,8 +47,8 @@ export default class ShowPlaylists extends React.Component {
                     Authorization: credentials
                 }
             })
+            this.state.clickedPlaylist === id ? this.setState({ trackDetail: false, clickedPlaylist: "" }) : this.setState({ tracksArray: response.data.result.tracks, trackDetail: true, clickedPlaylist: id })
             console.log(response.data.result.tracks)
-            this.setState({ tracksArray: response.data.result.tracks, trackDetail: true })
         }catch(error){console.log(error)}
         
     }
@@ -55,15 +58,18 @@ export default class ShowPlaylists extends React.Component {
             <MainContainer>
                 <SubTitle>suas playlists</SubTitle>
                 {this.state.playlistsArray.map((item) => {
-                    return <PlaylistCard key={item.id} name={item.name} id={item.id} onClickPlaylist={() => this.getPlaylistTracks(item.id)} tracks={this.state.tracksArray} visibility={this.state.trackDetail}/>
+                    return <div key={item.id}>
+                        <PlaylistCard name={item.name} id={item.id} onClickPlaylist={() => this.getPlaylistTracks(item.id)} tracks={this.state.tracksArray} visibility={this.state.trackDetail}/>
+                        {this.state.trackDetail && this.state.clickedPlaylist === item.id &&
+                        <div>
+                            {this.state.tracksArray.map((track) => {
+                                return <TrackCard key={track.id} artist={track.artist} name={track.name} src={track.url}/>
+                            })}
+                        </div>
+                        }
+                        <SmallButton>adicionar músicas</SmallButton>
+                    </div>
                 })}
-                {this.state.trackDetail && 
-                <div>
-                    {this.state.tracksArray.map((item) => {
-                        return <span key={item.id}>{item.artist}: "{item.name}" - disponível em: "{item.url}"</span>
-                    })}
-                </div>
-            }
             </MainContainer>
         )
     }
