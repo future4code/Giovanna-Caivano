@@ -1,19 +1,8 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-import { Box, CardMedia, CardContent, Typography, makeStyles, Button } from '@material-ui/core'
+import { Box, CardMedia, CardContent, Typography, Button } from '@material-ui/core'
 import { baseURL, student } from '../../constants/constants'
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '60%',
-        height: '100%',
-        margin: '0 auto',
-    },
-    media: {
-        height: 0,
-        paddingTop: '60%'
-    }
-}))
+import { useStyles } from './styles.js'
 
 export function MatchBox () {
     const classes = useStyles()
@@ -35,8 +24,11 @@ export function MatchBox () {
         } catch (error) {
             console.log(error)
         }
-
     }
+
+    useEffect(() => {
+        getNewOption()
+    }, [])
 
     const sendMatch = async (type) => {
         getNewOption()
@@ -52,12 +44,12 @@ export function MatchBox () {
         } catch (error) {
             console.log(error)
         }
-
     }
 
     return (
         <Box className={classes.root}>
             <CardMedia
+                component="div"
                 className={classes.media}
                 image={optionImg}
             />
@@ -66,8 +58,8 @@ export function MatchBox () {
                 <Typography>{optionBio}</Typography>
             </CardContent>
             <Box>
-                <Button variant="contained" color="secondary" onClick={() => sendMatch("no")}>NÃO</Button>
-                <Button variant="contained" color="primary" onClick={() => sendMatch("yes")}>SIM</Button>
+                <Button variant="contained" color="secondary" onClick={() => sendMatch("no")}>NOPE</Button>
+                <Button variant="contained" color="primary" onClick={() => sendMatch("yes")}>OH YES!</Button>
             </Box>
         </Box>
     )

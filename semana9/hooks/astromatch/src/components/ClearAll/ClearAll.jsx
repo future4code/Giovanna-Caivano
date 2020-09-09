@@ -14,6 +14,6 @@ export function ClearAll () {
         }
     }
     return (
-        <Button onClick={clearMatches}>Limpar</Button>
+        <Button onClick={clearMatches}>Limpar histórico</Button>
     )
 }
