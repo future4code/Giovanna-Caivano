@@ -11,6 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     media: {
         height: 0,
-        paddingTop: '80%'
+        paddingTop: '80%',
+        backgroundSize: 'contain',
     }
 }))

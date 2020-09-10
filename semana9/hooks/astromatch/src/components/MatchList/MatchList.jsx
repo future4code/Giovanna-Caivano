@@ -13,7 +13,6 @@ export function MatchList () {
         try{
             const response = await axios.get(`${baseURL}/:${student}/matches`)
             setMatchIdArray(response.data.matches)
-            console.log(response.data.matches)
         } catch (error) {
             console.log(error)
         }

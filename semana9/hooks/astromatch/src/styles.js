@@ -1,6 +1,9 @@
-import { makeStyles } from '@material-ui/core'
+import { makeStyles, createMuiTheme, responsiveFontSizes } from '@material-ui/core'
 
 export const useStyles = makeStyles((theme) => ({
+    container: {
+      padding: '0',
+    },
     card: {
       boxSizing: 'border-box',
       padding: '20px',
@@ -10,7 +13,7 @@ export const useStyles = makeStyles((theme) => ({
     },
     box: {
       margin: '0 auto',
-      width: '60%',
+      width: '50%',
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -18,19 +21,17 @@ export const useStyles = makeStyles((theme) => ({
       padding: '10px 10px',
       flexShrink: 0,
       '@media (max-width: 375px)': {
-        width: '80%',
+        width: '90%',
         margin: '0px auto',
         padding: '10px 0px',
         },
     },
-    typography: {
-      height: '100%',
-      position: 'absolute',
-      left: '50%',
-      transform: 'translateX(-50%)',
-      '@media (max-width: 400px)': {
-        fontSize: '1.75rem'
-        }
+    button: {
+      padding: '0',
     }
 }));
+
+export let theme = createMuiTheme();
+
+theme = responsiveFontSizes(theme);
 

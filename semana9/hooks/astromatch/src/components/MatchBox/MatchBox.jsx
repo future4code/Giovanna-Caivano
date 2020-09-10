@@ -39,8 +39,7 @@ export function MatchBox () {
             body = { id: optionId, choice: true }
         }
         try{
-            const response = await axios.post(`${baseURL}/:${student}/choose-person`, body, { headers: { "Content-type": "application/json" } })
-            console.log(response)
+            await axios.post(`${baseURL}/:${student}/choose-person`, body, { headers: { "Content-type": "application/json" } })
         } catch (error) {
             console.log(error)
         }
@@ -54,7 +53,7 @@ export function MatchBox () {
                 image={optionImg}
             />
             <CardContent>
-                <Typography>{optionName}, {optionAge}</Typography>
+                <Typography variant="h6">{optionName}, {optionAge}</Typography>
                 <Typography>{optionBio}</Typography>
             </CardContent>
             <Box>

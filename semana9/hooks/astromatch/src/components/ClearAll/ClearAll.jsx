@@ -8,7 +8,6 @@ export function ClearAll () {
     const clearMatches = async () => {
         try{
             await axios.put(`${baseURL}/:${student}/clear`)
-            alert("ok")
         } catch (error) {
             console.log(error)
         }
