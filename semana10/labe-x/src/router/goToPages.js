@@ -10,21 +10,20 @@ export const goToHomePage = (history) => {
     history.push("/");
 };
 
-export const goToListTripsPage = (history, isAdmin) => {
-    const whoAmI = isAdmin ? 'admin5489' : 'user'
-    history.push(`/viagens/${whoAmI}`);
+export const goToAdminListTripsPage = (history) => {
+    history.push(`/viagens/admin`);
+};
+
+export const goToUserListTripsPage = (history) => {
+    history.push(`/viagens/user`);
 };
 
 export const goToTripDetailsPage = (history, id) => {
     history.push(`/detalhes/${id}`);
 };
 
-export const goToApplicationFormPage = (history) => {
-    history.push("/inscrever");
-};
-
-export const goToUserSubscription = (history) => {
-    history.push("/adcrusuario");
+export const goToApplicationFormPage = (history, id) => {
+    history.push(`/inscrever/${id}`);
 };
 
 export const goToCreateTripPage = (history) => {

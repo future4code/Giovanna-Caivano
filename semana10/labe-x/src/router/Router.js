@@ -3,9 +3,10 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import HomePage from '../screens/HomePage/HomePage';
 import ApplicationFormPage from '../screens/ApplicationFormPage/ApplicationFormPage';
 import CreateTripPage from '../screens/CreateTripPage/CreateTripPage';
-import ListTripsPage from '../screens/ListTripsPage/ListTripsPage'
+import AdminListTripsPage from '../screens/AdminListTripsPage/AdminListTripsPage'
 import LoginPage from '../screens/LoginPage/LoginPage'
 import TripDetailsPage from '../screens/TripDetailsPage/TripDetailsPage'
+import UserListTripsPage from '../screens/UserListTripsPage/UserListTripsPage';
 
 const Router = () => {
     return(
@@ -17,11 +18,14 @@ const Router = () => {
                 <Route exact path="/login">
                     <LoginPage/>
                 </Route>
-                <Route exact path="/inscrever">
+                <Route exact path="/inscrever/:id">
                     <ApplicationFormPage />
                 </Route>
-                <Route exact path="/viagens/:isAdmin">
-                    <ListTripsPage/>
+                <Route exact path="/viagens/admin">
+                    <AdminListTripsPage/>
+                </Route>
+                <Route exact path="/viagens/user">
+                    <UserListTripsPage/>
                 </Route>
                 <Route exact path="/adcviagem">
                     <CreateTripPage/>
