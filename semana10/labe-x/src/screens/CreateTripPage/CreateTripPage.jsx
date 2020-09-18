@@ -1,70 +1,84 @@
 import Axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { baseURL } from '../../constans';
-import useProtectedPage from '../../hooks/useProtectedPage';
-import { goBack, goToHomePage } from '../../router/goToPages'
+import useForm from '../../hooks/useForm';
+import { goBack, goToAdminListTripsPage, goToHomePage, goToLoginPage } from '../../router/goToPages'
 
 const CreateTripPage = () => {
     const history = useHistory();
 
-    const [ tripName, setTripName ] = useState("");
-    const [ planet, setPlanet ] = useState("");
-    const [ tripDate, setTripDate ] = useState("");
-    const [ tripDescription, setTripDescription ] = useState("");
-    const [ tripDuration, setTripDuration ] = useState(0);
-    
-    const token = localStorage.getItem("token");
+    const { form, onChange, resetState } = useForm({
+      tripName: "",
+      planet: "",
+      tripDate: "",
+      tripDescription: "",
+      tripDuration: 0
+    })
 
-    useProtectedPage(() => {})
-    
-    const handleTripName = (event) => {
-      setTripName(event.target.value)
-    }
-    const handlePlanet = (event) => {
-      setPlanet(event.target.value)
-    }
-    const handleTripDate = (event) => {
-      setTripDate(event.target.value)
-    }
-    const handleTripDescription = (event) => {
-      setTripDescription(event.target.value)
-    }
-    const handleTripDuration = (event) => {
-      setTripDuration(event.target.value)
+    const handleInputChange = (event) => {
+      const {name, value} = event.target
+      onChange(name, value)
     }
 
-    const handleClick = () => {
+    useEffect(() => {
+      const token = localStorage.getItem("token");
+    
+        if (!token) {
+          goToLoginPage(history)
+        }
+    }, [history])
+
+    const postTrip = () => {
       const body = {
-        name: tripName,
-        planet: planet,
-        date: tripDate,
-        description: tripDescription,
-        durationInDays: tripDuration
+        name: form.tripName,
+        planet: form.planet,
+        date: form.tripDate,
+        description: form.tripDescription,
+        durationInDays: form.tripDuration
       }
       
       Axios.post(`${baseURL}/trips`, body, 
       {
         headers : {
           "Content-type": "application/json",
-          auth: token
-        }}).then(response => console.log(response)).catch(error => console.log(error))
+          auth: localStorage.getItem("token")
+        }}).then(response => {
+          alert("Viagem cadastrada com sucesso")
+        }).then(
+          goToAdminListTripsPage(history)
+        ).catch(error => console.log(error))
     }
 
+    const handleSubmission = (event) => {
+        event.preventDefault();
+        postTrip();
+        resetState();
+    }
 
 
     return ( 
         <div>
             <button onClick={() => goBack(history)}>voltar</button>
             <button onClick={() => goToHomePage(history)}>home</button>
-            <div>
-                <input placeholder={"Nome da viagem"} value={tripName} onChange={handleTripName}/>
-                <input placeholder={"Planeta destino"} value={planet} onChange={handlePlanet}/>
-                <input placeholder={"Data"} value={tripDate} onChange={handleTripDate}/>
-                <input placeholder={"Descrição"} value={tripDescription} onChange={handleTripDescription}/>
-                <input placeholder={"Duração (dias)"} value={tripDuration} onChange={handleTripDuration}/>
-                <button onClick={() => handleClick()}>Criar</button>
-            </div>
+            <form onSubmit={handleSubmission}>
+                <input placeholder={"Nome da viagem"} value={form.tripName} onChange={handleInputChange} type="text" pattern="[A-Za-z]{5,}" required />
+                <select placeholder={"Planeta destino"} value={form.planet} onChange={handleInputChange} required>
+                  <option value="mercúrio">Mercúrio</option>
+                  <option value="vênus">Vênus</option>
+                  <option value="terra">Terra</option>
+                  <option value="marte">Marte</option>
+                  <option value="júpiter">Júpiter</option>
+                  <option value="saturno">Saturno</option>
+                  <option value="urano">Urano</option>
+                  <option value="netuno">Netuno</option>
+                  <option value="plutão">Plutão</option>
+                </select>
+                <input placeholder={"Data"} value={form.tripDate} onChange={handleInputChange} type="date" required />
+                <input placeholder={"Descrição"} value={form.tripDescription} onChange={handleInputChange} type="text" pattern="[A-Za-z]{30,}" required />
+                <input placeholder={"Duração (dias)"} value={form.tripDuration} onChange={handleInputChange} type="number" min="50" required />
+                <button>Criar</button>
+            </form>
         </div>
      );
 }

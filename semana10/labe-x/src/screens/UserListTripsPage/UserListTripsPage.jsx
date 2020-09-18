@@ -3,6 +3,8 @@ import Axios from 'axios';
 import {baseURL} from '../../constans'
 import { goBack, goToApplicationFormPage, goToHomePage } from '../../router/goToPages';
 import { useHistory } from 'react-router-dom';
+import { MainContainer, ButtonWrapper, StandardButton, ListContainer, ListHeading } from '../../styles'
+import { Item } from './styles'
 
 const UserListTripsPage = () => {
     const history = useHistory();
@@ -22,15 +24,20 @@ const UserListTripsPage = () => {
     
     
     return ( 
-        <div>
-            <button onClick={() => goBack(history)}>voltar</button>
-            <button onClick={() => goToHomePage(history)}>home</button>
+        <MainContainer>
+            <ButtonWrapper>
+                <StandardButton onClick={() => goBack(history)}>voltar</StandardButton>
+                <StandardButton onClick={() => goToHomePage(history)}>home</StandardButton>
+            </ButtonWrapper>
 
-            <h4>Lista de Viagens</h4>
-            {tripsList.map((trip) => {
-                return <div key={trip.id} onClick={() => goToApplicationFormPage(history, trip.id)}>{trip.name}</div>
-            })}
-        </div>
+
+            <ListContainer>
+                <ListHeading>Escolha a viagem que quer se candidatar!</ListHeading>
+                {tripsList.map((trip) => {
+                return <Item key={trip.id} onClick={() => goToApplicationFormPage(history, trip.id)}>{trip.name}</Item>
+                })}
+            </ListContainer>
+        </MainContainer>
      );
 }
  

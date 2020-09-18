@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Axios from 'axios';
 import { baseURL } from '../../constans';
@@ -17,6 +17,10 @@ const AdminListTripsPage = () => {
             console.log(error)
         })
     }
+
+    useEffect(() => {
+        getTrips()
+    })
 
     useProtectedPage(getTrips)
 

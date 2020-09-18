@@ -5,6 +5,7 @@ import logo from './assets/img/labe-x-logo.png'
 import { Header, BoxWrapper, Logo, Heading1, Body2, Footer } from './styles';
 
 function App() {
+
   return (
     <div className="App">
       <Header>
