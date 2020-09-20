@@ -4,6 +4,8 @@ import Axios from 'axios';
 import { baseURL } from '../../constans';
 import useProtectedPage from '../../hooks/useProtectedPage';
 import { goBack, goToHomePage, goToTripDetailsPage, goToCreateTripPage } from '../../router/goToPages';
+import { MainContainer, ButtonWrapper, StandardButton, SecondaryButton, ListContainer, ListHeading, Item } from '../../styles'
+
 
 const AdminListTripsPage = () => {
     const history = useHistory();
@@ -25,18 +27,23 @@ const AdminListTripsPage = () => {
     useProtectedPage(getTrips)
 
     return ( 
-        <div>
-            <button onClick={() => goToHomePage(history)}>home</button>
-            <button onClick={() => goBack(history)}>voltar</button>
+        <MainContainer>
+            <ButtonWrapper>
+                <StandardButton onClick={() => goBack(history)}>voltar</StandardButton>
+                <StandardButton onClick={() => goToHomePage(history)}>home</StandardButton>
+                <StandardButton onClick={() => goToCreateTripPage(history)}>+ viagem</StandardButton>
+            </ButtonWrapper>
 
-            <button onClick={() => goToCreateTripPage(history)}>+ viagem</button>
-            <h4>Lista de Viagens</h4>
-            {tripsList.map((trip) => {
-                return <div key={trip.id}>{trip.name} <button onClick={() => goToTripDetailsPage(history, trip.id)}>detalhes</button></div>
-            })}
+            <ListContainer>
+                <ListHeading>Lista de Viagens</ListHeading>
+                
+                {tripsList.map((trip) => {
+                    return <Item key={trip.id}>{trip.name} <SecondaryButton onClick={() => goToTripDetailsPage(history, trip.id)}>ver mais</SecondaryButton></Item>
+                })}
+            </ListContainer>
 
             
-        </div>
+        </MainContainer>
      );
 }
  

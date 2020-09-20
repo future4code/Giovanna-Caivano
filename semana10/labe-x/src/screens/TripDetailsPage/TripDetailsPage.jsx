@@ -1,10 +1,12 @@
 import Axios from 'axios';
 import React, {  useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import Candidate from '../../components/Candidate';
+import Candidate from '../../components/Candidate/Candidate';
 import { baseURL } from '../../constans';
 import useProtectedPage from '../../hooks/useProtectedPage';
 import { goBack, goToHomePage } from '../../router/goToPages'
+import { MainContainer, ButtonWrapper, StandardButton, Item, ListContainer } from '../../styles'
+
 
 const TripDetailsPage = () => {
     const history = useHistory();
@@ -50,21 +52,23 @@ const TripDetailsPage = () => {
 
 
     return ( 
-        <div>
-            <button onClick={() => goBack(history)}>voltar</button>
-            <button onClick={() => goToHomePage(history)}>home</button>
-            
-            <div>
-              <div><span>Viagem: </span>{trip.name}</div>
-              <div><span>Destino: </span>{trip.planet}</div>
-              <div><span>Data: </span>{trip.date}</div>
-              <div><span>Descrição: </span>{trip.description}</div>
-              <div><span>Duração: </span>{trip.durationInDays}</div>
-              <div><span>Candidatos: </span> {tripCandidates.map((candidate) => { return <Candidate key={candidate.id} name={candidate.name} id={candidate.id} candidateFeedback={sendCandidateResponse}/>})}
-              </div>
-              <div><span>Viajantes aprovados: </span>{confirmedTravelers.map((traveler) => { return <div key={traveler.id}>{traveler.name}</div>})}</div>
-            </div>
-        </div>
+        <MainContainer>
+            <ButtonWrapper>
+                <StandardButton onClick={() => goBack(history)}>voltar</StandardButton>
+                <StandardButton onClick={() => goToHomePage(history)}>home</StandardButton>
+            </ButtonWrapper>
+
+            <ListContainer>
+              <Item><span>Viagem: </span>{trip.name}</Item>
+              <Item><span>Destino: </span>{trip.planet}</Item>
+              <Item><span>Data: </span>{trip.date}</Item>
+              <Item><span>Descrição: </span>{trip.description}</Item>
+              <Item><span>Duração: </span>{trip.durationInDays}</Item>
+              <Item><span>Candidatos: </span> {tripCandidates.map((candidate) => { return <Candidate key={candidate.id} name={candidate.name} id={candidate.id} candidateFeedback={sendCandidateResponse}/>})}
+              </Item>
+              <Item><span>Viajantes aprovados: </span>{confirmedTravelers.map((traveler) => { return <div key={traveler.id}>{traveler.name}</div>})}</Item>
+            </ListContainer>
+        </MainContainer>
      );
 }
  

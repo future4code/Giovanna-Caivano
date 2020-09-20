@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { baseURL } from '../../constans';
 import useForm from '../../hooks/useForm';
 import { goBack, goToAdminListTripsPage, goToHomePage, goToLoginPage } from '../../router/goToPages'
+import { MainContainer, ButtonWrapper, StandardButton, StandardForm, InputWrapper, ShortTextInput, LongTextInput, SelectInput, DateInput, NumberInput, StandardLabel, SecondaryButton  } from '../../styles'
 
 const CreateTripPage = () => {
     const history = useHistory();
@@ -41,7 +42,6 @@ const CreateTripPage = () => {
       Axios.post(`${baseURL}/trips`, body, 
       {
         headers : {
-          "Content-type": "application/json",
           auth: localStorage.getItem("token")
         }}).then(response => {
           alert("Viagem cadastrada com sucesso")
@@ -58,28 +58,37 @@ const CreateTripPage = () => {
 
 
     return ( 
-        <div>
-            <button onClick={() => goBack(history)}>voltar</button>
-            <button onClick={() => goToHomePage(history)}>home</button>
-            <form onSubmit={handleSubmission}>
-                <input placeholder={"Nome da viagem"} value={form.tripName} onChange={handleInputChange} type="text" pattern="[A-Za-z]{5,}" required />
-                <select placeholder={"Planeta destino"} value={form.planet} onChange={handleInputChange} required>
-                  <option value="mercúrio">Mercúrio</option>
-                  <option value="vênus">Vênus</option>
-                  <option value="terra">Terra</option>
-                  <option value="marte">Marte</option>
-                  <option value="júpiter">Júpiter</option>
-                  <option value="saturno">Saturno</option>
-                  <option value="urano">Urano</option>
-                  <option value="netuno">Netuno</option>
-                  <option value="plutão">Plutão</option>
-                </select>
-                <input placeholder={"Data"} value={form.tripDate} onChange={handleInputChange} type="date" required />
-                <input placeholder={"Descrição"} value={form.tripDescription} onChange={handleInputChange} type="text" pattern="[A-Za-z]{30,}" required />
-                <input placeholder={"Duração (dias)"} value={form.tripDuration} onChange={handleInputChange} type="number" min="50" required />
-                <button>Criar</button>
-            </form>
-        </div>
+        <MainContainer>
+            <ButtonWrapper>
+                <StandardButton onClick={() => goBack(history)}>voltar</StandardButton>
+                <StandardButton onClick={() => goToHomePage(history)}>home</StandardButton>
+            </ButtonWrapper>
+
+            <StandardForm onSubmit={handleSubmission}>
+                <ShortTextInput placeholder={"Nome da viagem"} value={form.tripName} onChange={handleInputChange} type="text" pattern="[A-Za-z]{5,}" required />
+                <InputWrapper>
+                  <StandardLabel>Para onde?</StandardLabel>
+                  <SelectInput placeholder={"Planeta destino"} value={form.planet} onChange={handleInputChange} required>
+                    <option value="mercúrio">Mercúrio</option>
+                    <option value="vênus">Vênus</option>
+                    <option value="terra">Terra</option>
+                    <option value="marte">Marte</option>
+                    <option value="júpiter">Júpiter</option>
+                    <option value="saturno">Saturno</option>
+                    <option value="urano">Urano</option>
+                    <option value="netuno">Netuno</option>
+                    <option value="plutão">Plutão</option>
+                  </SelectInput>
+                </InputWrapper>
+                <InputWrapper>
+                  <StandardLabel>Quando?</StandardLabel>
+                  <DateInput placeholder={"Data"} value={form.tripDate} onChange={handleInputChange} type="date" required />
+                </InputWrapper>
+                <LongTextInput placeholder={"Descrição"} value={form.tripDescription} onChange={handleInputChange} type="text" pattern="[A-Za-z0-9]{30,}" required />
+                <NumberInput placeholder={"Duração (dias)"} value={form.tripDuration} onChange={handleInputChange} type="number" min="50" required />
+                <SecondaryButton>Criar</SecondaryButton>
+            </StandardForm>
+        </MainContainer>
      );
 }
  

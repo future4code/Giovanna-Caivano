@@ -3,8 +3,7 @@ import Axios from 'axios';
 import {baseURL} from '../../constans'
 import { goBack, goToApplicationFormPage, goToHomePage } from '../../router/goToPages';
 import { useHistory } from 'react-router-dom';
-import { MainContainer, ButtonWrapper, StandardButton, ListContainer, ListHeading } from '../../styles'
-import { Item } from './styles'
+import { MainContainer, ButtonWrapper, StandardButton, ListContainer, ListHeading, Item } from '../../styles'
 
 const UserListTripsPage = () => {
     const history = useHistory();

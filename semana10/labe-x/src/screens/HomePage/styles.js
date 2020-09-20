@@ -19,17 +19,3 @@ export const FlexContainer = styled.div`
     justify-content: space-evenly;
     align-items: center;
 `
-
-export const MainCTA = styled.button`
-    font-family: 'Roboto',sans-serif;
-    font-weight: bold;
-    color: white;
-    letter-spacing: 1px;
-    width: 200px;
-    padding: 5px;
-    background-color: #04BF9D;
-    border-radius: 10px;
-    border: none;
-    box-shadow: #52E3C8 2px 2px;
-`
-

@@ -4,6 +4,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { baseURL } from '../../constans';
 import useForm from '../../hooks/useForm';
 import { goBack, goToHomePage } from '../../router/goToPages'
+import { MainContainer, ButtonWrapper, StandardButton, StandardForm, ShortTextInput, LongTextInput, NumberInput, MainCTA } from '../../styles'
+
 
 const ApplicationFormPage = () => {
     const history = useHistory();
@@ -49,12 +51,14 @@ const ApplicationFormPage = () => {
     }
 
     return ( 
-        <div>
-            <button onClick={() => goBack(history)}>voltar</button>
-            <button onClick={() => goToHomePage(history)}>home</button>
+        <MainContainer>
+            <ButtonWrapper>
+                <StandardButton onClick={() => goBack(history)}>voltar</StandardButton>
+                <StandardButton onClick={() => goToHomePage(history)}>home</StandardButton>
+            </ButtonWrapper>
 
-            <form onSubmit={handleSubmission}>
-                <input 
+            <StandardForm onSubmit={handleSubmission}>
+                <ShortTextInput 
                     placeholder={"Nome"} 
                     value={form.nameValue} 
                     name="nameValue"
@@ -64,7 +68,7 @@ const ApplicationFormPage = () => {
                     title="No mínimo 3 letras."
                     required
                 />
-                <input 
+                <NumberInput 
                     placeholder={"Idade"} 
                     value={form.ageValue} 
                     name="ageValue"
@@ -73,7 +77,7 @@ const ApplicationFormPage = () => {
                     min="18"
                     required
                 />
-                <input 
+                <LongTextInput 
                     placeholder={"Por que devemos escolher você?"} 
                     value={form.textValue} 
                     name="textValue"
@@ -82,24 +86,24 @@ const ApplicationFormPage = () => {
                     pattern="[A-Za-z]{30,}"
                     required
                     />
-                <input 
+                <ShortTextInput 
                     placeholder={"Profissão"} 
                     value={form.professionValue} 
                     name="professionValue"
                     onChange={handleInputChange}
                     type="text"
-                    pattern="[A-Za-z]{10,}"
+                    // pattern="[A-Za-z]"
                     required
                 />
-                <input 
+                <ShortTextInput 
                     placeholder={"País"} 
                     value={form.countryValue} 
                     name="countryValue"
                     onChange={handleInputChange}
                 />
-                <button>inscrever-se</button>
-            </form>
-        </div>
+                <MainCTA>inscrever-se</MainCTA>
+            </StandardForm>
+        </MainContainer>
      );
 }
  

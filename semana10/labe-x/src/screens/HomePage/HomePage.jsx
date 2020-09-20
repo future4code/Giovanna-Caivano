@@ -1,9 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { goToLoginPage, goToUserListTripsPage } from '../../router/goToPages'
-import { FlexContainer, Text, Banner, MainCTA } from './styles'
+import { FlexContainer, Text, Banner } from './styles'
 import bannerImg from '../../assets/img/morning-brew-CKKoCSPcAk4-unsplash.jpg'
-import { MainContainer, ButtonWrapper, StandardButton } from '../../styles'
+import { MainContainer, ButtonWrapper, StandardButton, MainCTA } from '../../styles'
 
 const HomePage = () => {
     const history = useHistory();
