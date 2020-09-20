@@ -7,7 +7,6 @@ const useForm = (initialState) => {
     const newForm = {...form, [name]: value};
     
     setForm(newForm);
-    console.log(name, value)
     }
 
     const resetState = () => {

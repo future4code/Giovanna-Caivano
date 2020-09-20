@@ -32,12 +32,7 @@ const ApplicationFormPage = () => {
             country: form.countryValue
         }
 
-        Axios.post(`${baseURL}/trips/${id}/apply`, body, 
-        {
-            headers: { 
-                "Content-Type": "application/json"
-            }
-        }).then((response) => {
+        Axios.post(`${baseURL}/trips/${id}/apply`, body).then((response) => {
             response.status === 200 ? alert("Cadastro feito com sucesso!") : alert("Algo deu errado! Por favor, tente novamente!")
         }).catch((error) => {
             console.log(error)

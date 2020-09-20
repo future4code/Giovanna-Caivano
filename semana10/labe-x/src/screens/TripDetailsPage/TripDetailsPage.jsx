@@ -31,7 +31,6 @@ const TripDetailsPage = () => {
     }
 
     const sendCandidateResponse = (candidateId, boolean) => {
-      console.log(candidateId, boolean)
       const body = {
         approve: boolean
       }

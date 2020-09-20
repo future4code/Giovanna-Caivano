@@ -9,26 +9,26 @@ import { MainContainer, ButtonWrapper, StandardButton, StandardForm, InputWrappe
 const CreateTripPage = () => {
     const history = useHistory();
 
-    const { form, onChange, resetState } = useForm({
+    const {form, onChange, resetState} = useForm({
       tripName: "",
       planet: "",
       tripDate: "",
       tripDescription: "",
       tripDuration: 0
-    })
-
-    const handleInputChange = (event) => {
-      const {name, value} = event.target
-      onChange(name, value)
-    }
+  })
 
     useEffect(() => {
       const token = localStorage.getItem("token");
-    
-        if (!token) {
-          goToLoginPage(history)
-        }
-    }, [history])
+  
+      if (!token) {
+        goToLoginPage(history)
+      }
+  }, [history]);
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    onChange(name, value)
+  }
 
     const postTrip = () => {
       const body = {
@@ -51,9 +51,9 @@ const CreateTripPage = () => {
     }
 
     const handleSubmission = (event) => {
-        event.preventDefault();
-        postTrip();
-        resetState();
+      event.preventDefault();
+      postTrip();
+      resetState();
     }
 
 
@@ -65,10 +65,18 @@ const CreateTripPage = () => {
             </ButtonWrapper>
 
             <StandardForm onSubmit={handleSubmission}>
-                <ShortTextInput placeholder={"Nome da viagem"} value={form.tripName} onChange={handleInputChange} type="text" pattern="[A-Za-z]{5,}" required />
+                <ShortTextInput 
+                  placeholder={"Nome da viagem"} 
+                  name={"tripName"}
+                  value={form.tripName} 
+                  onChange={handleInputChange} 
+                  type="text"  
+                  pattern="[A-Za-z]{5,}" 
+                  required 
+                  />
                 <InputWrapper>
                   <StandardLabel>Para onde?</StandardLabel>
-                  <SelectInput placeholder={"Planeta destino"} value={form.planet} onChange={handleInputChange} required>
+                  <SelectInput placeholder={"Planeta destino"} name={"planet"} value={form.planet} onChange={handleInputChange} required>
                     <option value="mercúrio">Mercúrio</option>
                     <option value="vênus">Vênus</option>
                     <option value="terra">Terra</option>
@@ -82,10 +90,10 @@ const CreateTripPage = () => {
                 </InputWrapper>
                 <InputWrapper>
                   <StandardLabel>Quando?</StandardLabel>
-                  <DateInput placeholder={"Data"} value={form.tripDate} onChange={handleInputChange} type="date" required />
+                  <DateInput placeholder={"Data"} name={"tripDate"} value={form.tripDate} onChange={handleInputChange} type="date" required />
                 </InputWrapper>
-                <LongTextInput placeholder={"Descrição"} value={form.tripDescription} onChange={handleInputChange} type="text" pattern="[A-Za-z0-9]{30,}" required />
-                <NumberInput placeholder={"Duração (dias)"} value={form.tripDuration} onChange={handleInputChange} type="number" min="50" required />
+                <LongTextInput placeholder={"Descrição"} name={"tripDescription"} value={form.tripDescription} onChange={handleInputChange} type="text" pattern="[A-Za-z0-9]{30,}" required />
+                <NumberInput placeholder={"Duração (dias)"} name={"tripDuration"} value={form.tripDuration} onChange={handleInputChange} type="number" min="50" required />
                 <SecondaryButton>Criar</SecondaryButton>
             </StandardForm>
         </MainContainer>
