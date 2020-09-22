@@ -6,9 +6,9 @@ import App from "./App";
 const createTestPost = (getByText, getByPlaceholderText, post) => {
     const inputText = getByPlaceholderText(/novo post/i)
     const addButton = getByText(/adicionar/i);
-    inputText.value = post
-
+    fireEvent.change(inputText, {target: {value: post }});
     fireEvent.click(addButton);
+
 }
 
 test('Checa se um novo item é adicionado à lista de posts no clique em Adicionar', () => {
@@ -36,6 +36,8 @@ test('Checa se o botão apagar deleta o post', () => {
 
     createTestPost(getByText, getByPlaceholderText, 'Texto do post.');
 
+    expect(queryAllByTestId('post').length).toEqual(1);
+
     const deleteButton = getByText(/apagar/i);
     fireEvent.click(deleteButton);    
 
@@ -46,8 +48,7 @@ test('Checa se o input é limpo após o clique em postar', () => {
     const { getByText, getByPlaceholderText } = render(<App/>);
 
     createTestPost(getByText, getByPlaceholderText, 'Texto do post.');
+    const inputValue = getByPlaceholderText(/novo post/i).value
 
-    const inputText = getByPlaceholderText(/novo post/i) 
-
-    expect(inputText.value).toHaveTextContent("")
+    expect(inputValue).toBe("")
 })
