@@ -5,6 +5,7 @@ import { Post } from "./components/Post";
 const App = () => {
   const [postsList, setPostsList] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [errorMsgVisibility, setErrorMsgVisibility] = useState(false);
 
   const onChangeInput = event => {
     setInputValue(event.target.value);
@@ -12,16 +13,21 @@ const App = () => {
 
   const addPost = () => {
     // Adiciona um post à lista
-    const newPost = {
-      id: Date.now(),
-      text: inputValue,
-      liked: false
-    };
-
-    const newPostsList = [newPost, ...postsList];
-
-    setPostsList(newPostsList);
-    setInputValue("")
+    if(inputValue){
+      const newPost = {
+        id: Date.now(),
+        text: inputValue,
+        liked: false
+      };
+  
+      const newPostsList = [newPost, ...postsList];
+  
+      setPostsList(newPostsList);
+      setInputValue("")
+      setErrorMsgVisibility(false)
+    } else {
+      setErrorMsgVisibility(true)
+    }
   };
 
   const deletePost = postId => {
@@ -62,6 +68,8 @@ const App = () => {
         <button onClick={addPost}>Adicionar</button>
       </div>
       <br />
+      {errorMsgVisibility && <p>Digite algo para criar o post</p>}
+      {postsList.length === 0 ? <p>Nenhum post</p> : <p>Quantidade de posts: {postsList.length}</p>}
       {postsList.map(post => {
         return (
           <Post
