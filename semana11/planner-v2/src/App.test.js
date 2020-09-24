@@ -1,37 +1,136 @@
 import React from 'react';
-import { fireEvent, getByLabelText, getByPlaceholderText, getByText, render } from '@testing-library/react';
+import { findByText, fireEvent, getAllByPlaceholderText, getAllByTestId, getByText, render, screen, wait } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect'
 import App from './App';
+import Axios from 'axios';
+import { baseURL } from './constants';
+import userEvent from '@testing-library/user-event';
 
-const createTaskAndRender = (taskText) => {
-  const utils = render(<App/>)
+Axios.get = jest.fn().mockResolvedValue({ data: []})
+Axios.post = jest.fn().mockResolvedValue()
+Axios.put = jest.fn().mockResolvedValue()
+Axios.delete = jest.fn().mockResolvedValue()
 
-  const taskInput = utils.getByPlaceholderText(/nome da tarefa/)
-  // const select = utils.getByTestId('day')
+test('initial render', async () => {
+
+  Axios.get = jest.fn().mockResolvedValue({ 
+    data: [{ 
+      text: 'tarefa mock', 
+      day: 'domingo'}]
+    })
+
+  render(<App/>)
   
-  fireEvent.change(taskInput, { target: { value: taskText }})
-  // fireEvent.change(select, { target: { value: taskDay }})
+  const input = screen.getByPlaceholderText('Nome da tarefa')
+  expect(input).toBeInTheDocument()
 
-  const addButton = utils.getByText('criar')
-  fireEvent.click(addButton)
+  const addButton = screen.getByText(/criar/)
+  expect(addButton).toBeInTheDocument()
 
-  return utils
-}
-
-test('renders planner - day-to-day grid and task creation box', () => {
-  const utils = render(<App/>)
-
-  const taskBox = utils.getByText(/nova tarefa/i)
-  expect(taskBox).toHaveTextContent(/nova tarefa/i)
+  const textData = await screen.findByText('tarefa mock')
+  expect(textData).toBeInTheDocument()
   
-  const dayColumn = utils.queryAllByTestId("day")
-  expect(dayColumn.length).toBeGreaterThan(1)
+  expect(Axios.get).toHaveBeenCalledWith(baseURL)
 })
 
-// test('check ability to create task', () => {
-//   const {} = createTaskAndRender('Fazer compras')
 
-//   expect(getByTestId("task-content")).toHaveTextContent("Fazer compras")
-// })
+test('create task', async () => {
+  Axios.post = jest.fn().mockResolvedValue()
+  Axios.get = jest.fn().mockResolvedValue({
+    data: []
+  })
 
+  render(<App/>)
 
+  const input = screen.getByPlaceholderText('Nome da tarefa')
+  expect(input).toBeInTheDocument()
+
+  const button = screen.getByText(/criar/)
+  expect(button).toBeInTheDocument()
+
+  await userEvent.type(input, 'tarefa mockada')
+
+  userEvent.click(button)
+
+  expect(Axios.post).toHaveBeenCalledWith(baseURL, {
+    text: 'tarefa mockada',
+    day: 'domingo'
+  })
+
+  await wait(() => {
+    expect(Axios.get).toHaveBeenCalledTimes(2)
+  })
+})
+
+test.skip('edit task', async () => {
+  Axios.get = jest.fn().mockResolvedValue({
+    data: [{
+      id: '1',
+      text: 'tarefa teste',
+      day: 'segunda'
+    }]
+  })
+
+  Axios.put = jest.fn().mockResolvedValue()
+
+  render(<App/>)
+
+  const input = screen.getByPlaceholderText('Nome da tarefa')
+  expect(input).toBeInTheDocument()
+
+  const button = screen.getByText(/criar/)
+  expect(button).toBeInTheDocument()
+  
+  const testTask = await screen.findByText(/tarefa teste/)
+  expect(testTask).toBeInTheDocument()
+
+  expect(Axios.get).toHaveBeenCalledWith(baseURL)
+
+  userEvent.click(testTask)
+
+  expect(Axios.put).toHaveBeenCalledWith(`${baseURL}/1`, {
+    day: 'terça'
+  })
+
+  await wait(() => {
+    expect(Axios.get).toHaveBeenCalledTimes(3)
+    expect(getByTestId('1')).toBeInTheDocument()
+  })
+})
+
+test('delete task', async () => {
+  Axios.get = jest.fn().mockResolvedValue({
+    data: [{
+      id: '1',
+      text: 'tarefa teste',
+      day: 'segunda'
+    }]
+  })
+
+  Axios.delete = jest.fn().mockResolvedValue()
+
+  render(<App/>)
+
+  const input = screen.getByPlaceholderText('Nome da tarefa')
+  expect(input).toBeInTheDocument()
+
+  const button = screen.getByText(/criar/)
+  expect(button).toBeInTheDocument()
+  
+  
+  const testTask = await screen.findByText(/tarefa teste/)
+  expect(testTask).toBeInTheDocument()
+  
+  const deleteButton = screen.getByText(/apagar/)
+  expect(deleteButton).toBeInTheDocument()
+  
+  expect(Axios.get).toHaveBeenCalledWith(baseURL)
+
+  fireEvent.click(deleteButton)
+
+  expect(Axios.delete).toHaveBeenCalledWith(`${baseURL}/1`)
+
+  await wait(() => {
+    expect(Axios.get).toHaveBeenCalledTimes(3)
+  })
+})

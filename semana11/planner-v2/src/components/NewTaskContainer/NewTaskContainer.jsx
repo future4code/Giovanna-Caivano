@@ -5,9 +5,10 @@ import { baseURL } from '../../constants'
 
 const NewTaskContainer = () => {
     const [ inputValue, setInputValue ] = useState("")
-    const [ dayValue, setDayValue ] = useState("")
+    const [ dayValue, setDayValue ] = useState("domingo")
 
     const handleDayChange = (event) => {
+        console.log(event.target.value)
         setDayValue(event.target.value)
     }
     const handleInputChange = (event) => {
@@ -23,7 +24,7 @@ const NewTaskContainer = () => {
         Axios.post(baseURL, body).then((response) => {console.log(response)}).catch((err) => {console.log(err)})
         setInputValue("")
     }
-    
+
 
     return ( 
         <Container>
