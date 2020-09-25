@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { goToHomePage, goBack, goToAdminListTripsPage, goToLoginPage } from '../../router/goToPages';
 import { baseURL } from '../../constans'
+import { MainContainer, ButtonWrapper, InputWrapper, ShortTextInput, SecondaryButton, StandardButton } from '../../styles';
+import { LoginForm } from './styles'
 
 const LoginPage = () => {
     const [emailValue, setEmailValue] = useState("");
@@ -40,15 +42,17 @@ const LoginPage = () => {
     }
 
     return ( 
-        <div>
-            <button onClick={() => goToHomePage(history)}>home</button>
-            <button onClick={() => goBack(history)}>voltar</button>
-            <div>
-                <input placeholder={"e-mail"} type={"text"} value={emailValue} onChange={handleEmailChange}/>
-                <input placeholder={"senha"} type={"password"} value={passwordValue} onChange={handlePasswordChange}/>
-                <button onClick={handleLogin}>entrar</button>
-            </div>
-        </div>
+        <MainContainer>
+            <ButtonWrapper>
+                <StandardButton onClick={() => goToHomePage(history)}>home</StandardButton>
+                <StandardButton onClick={() => goBack(history)}>voltar</StandardButton>
+            </ButtonWrapper>
+            <LoginForm>
+                <ShortTextInput placeholder={"e-mail"} type={"text"} value={emailValue} onChange={handleEmailChange}/>
+                <ShortTextInput placeholder={"senha"} type={"password"} value={passwordValue} onChange={handlePasswordChange}/>
+                <SecondaryButton onClick={handleLogin}>entrar</SecondaryButton>
+            </LoginForm>
+        </MainContainer>
         
      );
 }
