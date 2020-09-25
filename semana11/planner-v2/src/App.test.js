@@ -62,7 +62,8 @@ test('create task', async () => {
   })
 })
 
-test.skip('edit task', async () => {
+test('edit task', async () => {
+  Axios.put = jest.fn().mockResolvedValue()
   Axios.get = jest.fn().mockResolvedValue({
     data: [{
       id: '1',
@@ -71,31 +72,40 @@ test.skip('edit task', async () => {
     }]
   })
 
-  Axios.put = jest.fn().mockResolvedValue()
 
   render(<App/>)
 
-  const input = screen.getByPlaceholderText('Nome da tarefa')
-  expect(input).toBeInTheDocument()
-
-  const button = screen.getByText(/criar/)
-  expect(button).toBeInTheDocument()
-  
   const testTask = await screen.findByText(/tarefa teste/)
   expect(testTask).toBeInTheDocument()
 
   expect(Axios.get).toHaveBeenCalledWith(baseURL)
-
+  
   userEvent.click(testTask)
-
+  
+  const input = screen.getByPlaceholderText('Novo nome')
+  expect(input).toBeInTheDocument()
+  const select = screen.getByTestId('taskDay')
+  
+  const button = screen.getByText(/atualizar/)
+  expect(button).toBeInTheDocument()
+  
+  await userEvent.type(input, 'tarefa mockada')
+  userEvent.selectOptions(select, 'domingo')
+  
+  userEvent.click(button)
+  
   expect(Axios.put).toHaveBeenCalledWith(`${baseURL}/1`, {
-    day: 'terça'
+    text: 'tarefa mockada',
+    day: 'domingo'
   })
+  
 
   await wait(() => {
-    expect(Axios.get).toHaveBeenCalledTimes(3)
-    expect(getByTestId('1')).toBeInTheDocument()
+    expect(Axios.get).toHaveBeenCalledTimes(2)
+    expect(Axios.put).toHaveBeenCalledTimes(1)
+    expect(screen.getByText('tarefa mockada')).toBeInTheDocument()
   })
+  
 })
 
 test('delete task', async () => {
@@ -131,6 +141,6 @@ test('delete task', async () => {
   expect(Axios.delete).toHaveBeenCalledWith(`${baseURL}/1`)
 
   await wait(() => {
-    expect(Axios.get).toHaveBeenCalledTimes(3)
+    expect(Axios.get).toHaveBeenCalledTimes(2)
   })
 })

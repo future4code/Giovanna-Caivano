@@ -2,13 +2,14 @@ import Axios from 'axios';
 import React, { useState } from 'react';
 import { Container } from './styles'
 import { baseURL } from '../../constants'
+import { TaskContainer } from '../TaskContainer/TaskContainer';
+
 
 const NewTaskContainer = () => {
     const [ inputValue, setInputValue ] = useState("")
     const [ dayValue, setDayValue ] = useState("domingo")
 
     const handleDayChange = (event) => {
-        console.log(event.target.value)
         setDayValue(event.target.value)
     }
     const handleInputChange = (event) => {
@@ -28,18 +29,16 @@ const NewTaskContainer = () => {
 
     return ( 
         <Container>
-            <h3>nova tarefa</h3>
-            <input value={inputValue} placeholder="Nome da tarefa" type="text" onChange={handleInputChange}/>
-            <select value={dayValue} onChange={handleDayChange}>
-                <option value="domingo">Domingo</option>
-                <option value="segunda">Segunda-feira</option>
-                <option value="terça">Terça-feira</option>
-                <option value="quarta">Quarta-feira</option>
-                <option value="quinta">Quinta-feira</option>
-                <option value="sexta">Sexta-feira</option>
-                <option value="sábado">Sábado</option>
-            </select>
-            <button onClick={createTask}>criar</button>
+            <TaskContainer 
+                title={"nova tarefa"}
+                placeholder={"Nome da tarefa"}
+                inputValue={inputValue} 
+                dayValue={dayValue} 
+                handleInputChange={handleInputChange} 
+                handleDayChange={handleDayChange} 
+                createTask={createTask}
+                buttonName={"criar"}
+            />
         </Container>
      );
 }

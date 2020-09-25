@@ -1,12 +1,12 @@
 import React from 'react';
+import {DeleteButton, TaskItem} from './style'
 
 const Task = (props) => {
 
     return ( 
-        <li onClick={props.editTask}>
-            {props.text}
-            <button onClick={props.deleteTask}>apagar</button>
-            <button onClick={props.addStyle}>done</button>
+        <li>
+            <TaskItem onClick={props.editTask}>{props.text}</TaskItem>
+            <DeleteButton onClick={props.deleteTask}>apagar</DeleteButton>
         </li>
      );
 }

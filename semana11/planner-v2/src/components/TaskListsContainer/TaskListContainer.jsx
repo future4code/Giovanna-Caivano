@@ -1,11 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { Container } from './styles'
+import { TaskContainer } from '../TaskContainer/TaskContainer';
+import { PlannerContainer, BoxWrapper, Box, TaskList } from './styles'
 import { baseURL } from '../../constants'
 import Axios from 'axios';
 import Task from '../Task/Task';
 
 const TaskListContainer = () => {
     const [ taskArray, setTaskArray ] = useState([])
+    const [ updateTaskVisibility, setupdateTaskVisibility ] = useState(false)
+    const [ editInputValue, setEditInputValue ] = useState("")
+    const [ editDayValue, setEditDayValue ] = useState("domingo")
+    const [ taskId, setTaskId ] = useState("")
+
+    const weekdayArray = ['domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado']
 
     const sendTaskListRequest = () => {
         Axios.get(baseURL)
@@ -16,12 +23,20 @@ const TaskListContainer = () => {
         })
     }
 
+    const handleEditDayChange = (event) => {
+        setEditDayValue(event.target.value)
+    }
+    const handleEditInputChange = (event) => {
+        setEditInputValue(event.target.value)
+    }
+
     useEffect(() => {
         sendTaskListRequest()
-    })    
+    }, [])    
 
-    const addStyle = () => {
-        //adiciona linethrough no li
+    const editTask = (id) => {
+        setupdateTaskVisibility(!updateTaskVisibility)
+        setTaskId(id)
     }
 
     const deleteTask = (id) => {
@@ -33,37 +48,55 @@ const TaskListContainer = () => {
         })
     }
 
+    const sendEditRequest = (id) => {
+        const body = {
+            "text": editInputValue,
+            "day": editDayValue
+        }
+
+        Axios.put(`${baseURL}/${id}`, body)
+        .then((response) => {
+            sendTaskListRequest()
+        }).catch((err) => {
+            console.log(err)
+        })
+        setupdateTaskVisibility(false)
+    }
+
     return ( 
-        <Container>
-            <div data-testid="day">
-                <h4>Domingo</h4>
-                <ul>{taskArray.map((task) => { return task.day === "domingo" && <Task addStyle={addStyle} deleteTask={() => deleteTask(task.id)} text={task.text}/> })}</ul>
-            </div>
-            <div data-testid="day">
-                <h4>Segunda-feira</h4>
-                <ul>{taskArray.map((task) => { return task.day === "segunda" && <Task addStyle={addStyle} deleteTask={() => deleteTask(task.id)} text={task.text}/> })}</ul>
-            </div>
-            <div data-testid="day">
-                <h4>Terça-feira</h4>
-                <ul>{taskArray.map((task) => { return task.day === "terça" && <Task data-testid={task.id} addStyle={addStyle} deleteTask={() => deleteTask(task.id)} text={task.text}/> })}</ul>
-            </div>
-            <div data-testid="day">
-                <h4>Quarta-feira</h4>
-                <ul>{taskArray.map((task) => { return task.day === "quarta" && <Task addStyle={addStyle} deleteTask={() => deleteTask(task.id)} text={task.text}/> })}</ul>
-            </div>
-            <div data-testid="day">
-                <h4>Quinta-feira</h4>
-                <ul>{taskArray.map((task) => { return task.day === "quinta" && <Task addStyle={addStyle} deleteTask={() => deleteTask(task.id)} text={task.text}/> })}</ul>
-            </div>
-            <div data-testid="day">
-                <h4>Sexta-feira</h4>
-                <ul>{taskArray.map((task) => { return task.day === "sexta" && <Task addStyle={addStyle} deleteTask={() => deleteTask(task.id)} text={task.text}/> })}</ul>
-            </div>
-            <div data-testid="day">
-                <h4>Sábado</h4>
-                <ul>{taskArray.map((task) => { return task.day === "sábado" && <Task addStyle={addStyle} deleteTask={() => deleteTask(task.id)} text={task.text}/> })}</ul>
-            </div>
-        </Container>
+        <PlannerContainer>
+            <BoxWrapper>
+                {updateTaskVisibility && <TaskContainer 
+                    title={"editar tarefa"}
+                    placeholder={"Novo nome"}
+                    inputValue={editInputValue} 
+                    dayValue={editDayValue} 
+                    handleInputChange={handleEditInputChange} 
+                    handleDayChange={handleEditDayChange} 
+                    createTask={() => sendEditRequest(taskId)}
+                    buttonName={"atualizar"}
+                    testid={"taskDay"}
+                />}
+            </BoxWrapper>
+            <BoxWrapper>
+                {weekdayArray.map((day) => {
+                    return (
+                        <Box data-testid="day">
+                            <h4>{day}</h4>
+                            <TaskList>
+                                {taskArray.map((task) => { return (
+                                task.day === day && <Task 
+                                    data-testid={task.id} 
+                                    editTask={() => editTask(task.id)} 
+                                    deleteTask={() => deleteTask(task.id)} 
+                                    text={task.text}/>
+                                )})}
+                            </TaskList>
+                        </Box>
+                    )
+                })}
+                </BoxWrapper>
+        </PlannerContainer>
      );
 }
  
