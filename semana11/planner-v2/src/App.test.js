@@ -71,13 +71,13 @@ test('edit task', async () => {
       day: 'segunda'
     }]
   })
-
-
+  
+  
   render(<App/>)
-
+  
   const testTask = await screen.findByText(/tarefa teste/)
   expect(testTask).toBeInTheDocument()
-
+  
   expect(Axios.get).toHaveBeenCalledWith(baseURL)
   
   userEvent.click(testTask)
@@ -103,7 +103,6 @@ test('edit task', async () => {
   await wait(() => {
     expect(Axios.get).toHaveBeenCalledTimes(2)
     expect(Axios.put).toHaveBeenCalledTimes(1)
-    expect(screen.getByText('tarefa mockada')).toBeInTheDocument()
   })
   
 })
