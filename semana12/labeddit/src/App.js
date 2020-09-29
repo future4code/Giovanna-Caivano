@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core'
@@ -11,12 +11,15 @@ const InnerScreenContainer = styled.div`
 `
 
 function App() {
+  const token = localStorage.getItem('token')
+  const [buttonName, setButtonName] = useState(token ? 'logout' : 'login')
+
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <NavBar/>
+        <NavBar buttonName={buttonName} setButtonName={setButtonName}/>
         <InnerScreenContainer>
-          <Router/>
+          <Router setButtonName={setButtonName}/>
         </InnerScreenContainer>
       </BrowserRouter>
     </ThemeProvider>

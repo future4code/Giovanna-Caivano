@@ -1,7 +1,12 @@
-import React from 'react';
-import { Button, Card, CardActions, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Card, CardActions, CardContent, IconButton, makeStyles, Typography } from '@material-ui/core';
 import IndeterminateCheckBoxIcon from '@material-ui/icons/IndeterminateCheckBox';
 import AddBoxIcon from '@material-ui/icons/AddBox';
+import { IconWrapper } from './styled'
+import useProtectedPage from '../../hooks/useProtectedPage';
+import { sendVote } from '../../services/posts';
+import { goToPost } from '../../routes/Coordinator';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -11,40 +16,58 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         justifyContent: 'space-between',
     },
+    comment: {
+        marginRight: '8px',
+    }
 }))
 
 const PostCard = (props) => {
+    useProtectedPage()
+    const history = useHistory()
+
+    const [vote, setVote] = useState(0)
+    const { username, postTitle, postText, votesCount, commentsCount, postId } = props
     const classes = useStyles();
 
+    const voteHandler = (id, type) => {
+        const token = localStorage.getItem('token')
+
+        if(vote === 0){
+            setVote(type)
+            sendVote(id, token, type)
+        } else {
+            setVote(0)
+            sendVote(id, token, 0)
+        }
+    }
+
     return ( 
-        <Card className={classes.root}>
+        <Card className={classes.root} onClick={() => goToPost(history, postId)}>
             <CardContent>
                 <Typography color="secondary" gutterBottom>
-                    props-nome do usuário
+                    {username}
                 </Typography>
                 <Typography>
-                    props-título do post
+                    {postTitle}
                 </Typography>
                 <Typography variant="body2" component="p">
-                    props-texto do post
+                    {postText}
                 </Typography>
             </CardContent>
             <CardActions className={classes.action}>
-                <div>
-                    <IconButton aria-label="voto positivo">
+                <IconWrapper>
+                    <IconButton aria-label="voto positivo" onClick={() => voteHandler(postId, 1)}>
                         <AddBoxIcon/>
                     </IconButton>
-                    <IconButton aria-label="voto negativo">
+                    <Typography variant="body2" color="textPrimary" component="p">
+                        {votesCount}
+                    </Typography>
+                    <IconButton aria-label="voto negativo" onClick={() => voteHandler(postId, -1)}>
                         <IndeterminateCheckBoxIcon/>
                     </IconButton>
-                </div>
-                <Button>comentários</Button>
+                </IconWrapper>
+            <Typography variant={"button"} className={classes.comment}>{commentsCount} comentários</Typography>
             </CardActions>
-            <CardContent>
-                <Typography variant="body2" color="textSecondary" component="p">
-                    props-comentário
-                </Typography>
-            </CardContent>
         </Card>
      );
 }

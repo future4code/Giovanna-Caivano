@@ -1,23 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Container, Avatar, Typography } from '@material-ui/core';
-import LockIcon from '@material-ui/icons/Lock';
+import { TextField, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { signup } from '../../services/users';
+import { login } from '../../services/users';
 import useForm from '../../hooks/useForm';
-import useUnprotectedPage from '../../hooks/useUnprotectedPage';
 
 const useStyles = makeStyles((theme) => ({
-    container: {
-        marginTop: theme.spacing(8),
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-    },
-    avatar: {
-      margin: theme.spacing(1),
-      backgroundColor: theme.palette.secondary.main,
-    },
     form: {
       width: '100%',
       marginTop: theme.spacing(1),
@@ -28,21 +16,19 @@ const useStyles = makeStyles((theme) => ({
     button: {
         width: '150px',
         margin: '5px',
-    }
+    },
   }));
 
-const SignUpPage = (props) => {
-    useUnprotectedPage()
-    
+const LoginForm = (props) => {
     const [form, handleInputChange] = useForm({ username: '', email: '', password: ''})
 
-    const onClickSignUp = (event) => {
+    const onClickLogin = (event) => {
         event.preventDefault()
-        const element = document.getElementById('signup-form')
+        const element = document.getElementById('login-form')
         const isValid = element.checkValidity()
         element.reportValidity()
         if(isValid){
-            signup(form, history, props.setButtonName)
+            login(form, history, props.setButtonName)
         }
     }
 
@@ -50,27 +36,7 @@ const SignUpPage = (props) => {
     const history = useHistory();
 
     return ( 
-        <Container className={classes.container} maxWidth="xs">
-            <Avatar className={classes.avatar}>
-            <LockIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-                Faça seu cadastro!
-            </Typography>
-            <form className={classes.form} id={'signup-form'}>
-                <TextField
-                value={form.username}
-                onChange={handleInputChange}
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="username"
-                label="Nome de usuário"
-                name="username"
-                autoComplete="username"
-                autoFocus
-                />
+            <form className={classes.form} id={'login-form'}>
                 <TextField
                 value={form.email}
                 onChange={handleInputChange}
@@ -82,6 +48,7 @@ const SignUpPage = (props) => {
                 label="E-mail"
                 name="email"
                 autoComplete="email"
+                autoFocus
                 />
             <TextField
                 value={form.password}
@@ -101,13 +68,12 @@ const SignUpPage = (props) => {
                 variant="contained"
                 color="primary"
                 className={classes.button}
-                onClick={onClickSignUp}
+                onClick={onClickLogin}
             >
-                cadastrar
+                entrar
             </Button>
             </form>
-        </Container>
      );
 }
  
-export default SignUpPage;
+export default LoginForm;
