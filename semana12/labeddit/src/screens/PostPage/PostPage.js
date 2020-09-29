@@ -5,7 +5,7 @@ import useProtectedPage from '../../hooks/useProtectedPage';
 import { getPostDetail, sendCommentVote } from '../../services/posts'
 import PostCard from '../../components/PostCard/PostCard';
 import CommentBox from '../../components/CommentBox'
-
+import CommentForm from './CommentForm'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -53,6 +53,7 @@ const PostPage = () => {
                     commentsCount={postDetail.commentsCount} 
                     postId={postDetail.id}
                 />
+                <CommentForm postId={pathParams.id}/>
                     {postComments.map((comment) => {
                         return (
                             <CommentBox
@@ -60,7 +61,7 @@ const PostPage = () => {
                                 id={comment.id}
                                 username={comment.username}
                                 votesCount={comment.votesCount}
-                                votesHandler={comment.votesHandler}
+                                voteHandler={voteHandler}
                             />
                         )})}
             </CardActionArea>

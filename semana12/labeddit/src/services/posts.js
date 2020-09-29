@@ -29,6 +29,19 @@ export const createPost = (token, body) => {
         console.log(error)
     })
 }
+export const createComment = (token, id, body) => {
+    axios.post(`${baseURL}/posts/${id}/comment`, body, {
+        headers: {
+            Authorization: token
+        }
+    })
+    .then((response) => {
+        console.log(response.status)
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
 
 export const sendVote = (id, token, direction) => {
     const body = {
