@@ -1,9 +1,9 @@
 import React from 'react';
-import { Button, Typography } from '@material-ui/core';
-import ErrorShark from '../../assets/error-shark.png'
-import { MainContainer, ErrorImg } from './styled'
-import { goToFeed } from '../../routes/Coordinator';
 import { useHistory } from 'react-router-dom';
+import { Button, Typography } from '@material-ui/core';
+import { goToFeed } from '../../routes/Coordinator';
+import ErrorShark from '../../assets/img/error-shark.png'
+import { MainContainer, ErrorImg } from './styled'
 
 const ErrorPage = () => {
     const history = useHistory()

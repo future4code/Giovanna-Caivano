@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { CardActionArea, Container, makeStyles } from '@material-ui/core';
-import useProtectedPage from '../../hooks/useProtectedPage';
-import { getPostDetail, sendCommentVote } from '../../services/posts'
+import { Container, makeStyles } from '@material-ui/core';
 import PostCard from '../../components/PostCard/PostCard';
 import CommentBox from '../../components/CommentBox'
+import Loading from '../../components/Loading/Loading';
+import useProtectedPage from '../../hooks/useProtectedPage';
+import { getPostDetail } from '../../services/posts'
+import { timePassed } from '../../helpers/timePassed'
 import CommentForm from './CommentForm'
 
 const useStyles = makeStyles((theme) => ({
@@ -12,38 +14,28 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(6),
         display: 'flex',
         flexDirection: 'column',
+    },
+    box: {
+        marginBottom: '20px'
     }
 }))
 
 const PostPage = () => {
     const classes = useStyles();
-    const pathParams = useParams();
+    const {id} = useParams();
     const [postDetail, setPostDetail] = useState({})
     const [postComments, setPostComments] = useState([])
-    const [vote, setVote] = useState(0)
 
     useProtectedPage()
     
     useEffect(() => {
-        const token = localStorage.getItem('token')
-        getPostDetail(pathParams.id, token, setPostDetail, setPostComments)
-    }, [pathParams.id])
-
-    const voteHandler = (commentId, type) => {
-        const token = localStorage.getItem('token')
-
-        if(vote === 0){
-            setVote(type)
-            sendCommentVote(pathParams.id, commentId, token, type)
-        } else {
-            setVote(0)
-            sendCommentVote(pathParams.id, commentId, token, 0)
-        }
-    }
+        getPostDetail(id, setPostDetail, setPostComments)
+    }, [id])
     
-    return ( 
-        <Container className={classes.root}>
-            <CardActionArea>
+    const renderPostDetail = () => {
+
+        return (
+            <Container className={classes.root}>
                 <PostCard
                     key={postDetail.id} 
                     username={postDetail.username} 
@@ -52,20 +44,30 @@ const PostPage = () => {
                     votesCount={postDetail.votesCount} 
                     commentsCount={postDetail.commentsCount} 
                     postId={postDetail.id}
+                    className={classes.box}
+                    />
+                <CommentForm 
+                    postId={id}
                 />
-                <CommentForm postId={pathParams.id}/>
-                    {postComments.map((comment) => {
+                    {postComments.sort((a, b) => {return b.createdAt - a.createdAt}).map((comment) => {
                         return (
                             <CommentBox
-                                key={comment.id}
-                                id={comment.id}
-                                username={comment.username}
-                                votesCount={comment.votesCount}
-                                voteHandler={voteHandler}
+                            key={comment.id}
+                            id={comment.id}
+                            username={comment.username}
+                            text={comment.text}
+                            votesCount={comment.votesCount}
+                            postId={id}
+                            createdAt={timePassed(comment.createdAt)}
                             />
-                        )})}
-            </CardActionArea>
+                            )})}
         </Container>
+        )
+    }
+    return ( 
+        <>
+        { postDetail ? renderPostDetail() : <Loading/> }
+        </>
      );
 }
  

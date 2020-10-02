@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Button, Container, Avatar, Typography } from '@material-ui/core';
 import LockIcon from '@material-ui/icons/Lock';
 import { goToSignUp } from '../../routes/Coordinator';
-import LoginForm from './LoginForm';
 import useUnprotectedPage from '../../hooks/useUnprotectedPage';
+import LoginForm from './LoginForm';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -24,21 +24,19 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const LoginPage = (props) => {
-    useUnprotectedPage()
-
     const classes = useStyles();
     const history = useHistory();
+
+    useUnprotectedPage()
 
     return ( 
         <Container className={classes.container} maxWidth="xs">
             <Avatar className={classes.avatar}>
                 <LockIcon />
             </Avatar>
-            <Typography component="h1" variant="h5">
-                Faça seu login!
-            </Typography>
+            <Typography component="h1" variant="h5">Faça seu login!</Typography>
             <LoginForm setButtonName={props.setButtonName}/>
-            <Typography className={classes.text} textSecondary>ou</Typography>
+            <Typography className={classes.text} color="textSecondary">ou</Typography>
             <Button
                 type="submit"
                 color="secondary"

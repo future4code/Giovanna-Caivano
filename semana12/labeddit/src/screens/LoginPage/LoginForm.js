@@ -1,9 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
-import { login } from '../../services/users';
+import { TextField, Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import useForm from '../../hooks/useForm';
+import { login } from '../../services/users';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -21,6 +21,8 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginForm = (props) => {
     const [form, handleInputChange] = useForm({ username: '', email: '', password: ''})
+    const classes = useStyles();
+    const history = useHistory();
 
     const onClickLogin = (event) => {
         event.preventDefault()
@@ -31,9 +33,6 @@ const LoginForm = (props) => {
             login(form, history, props.setButtonName)
         }
     }
-
-    const classes = useStyles();
-    const history = useHistory();
 
     return ( 
             <form className={classes.form} id={'login-form'}>

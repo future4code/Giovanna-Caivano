@@ -3,7 +3,7 @@ import { AppBar, Button, Toolbar } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { goToFeed, goToLogin } from '../../routes/Coordinator';
 import { ButtonWrapper, LogoImg, NavBarTitle } from './styled'
-import SharkLogo from '../../assets/shark.png'
+import SharkLogo from '../../assets/img/shark.png'
 
 const NavBar = (props) => {
     const {buttonName, setButtonName} = props

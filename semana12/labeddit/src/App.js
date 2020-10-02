@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import styled from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
 import { ThemeProvider } from '@material-ui/core'
+import styled from 'styled-components'
 import Router from './routes/Router';
-import theme from './constants/theme'
 import NavBar from './components/NavBar';
+import theme from './constants/theme'
 
 const InnerScreenContainer = styled.div`
   padding-top: 64px;

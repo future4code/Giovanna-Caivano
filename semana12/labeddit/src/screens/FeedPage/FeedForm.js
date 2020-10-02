@@ -1,20 +1,19 @@
-import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Button, CircularProgress, TextField } from '@material-ui/core';
 import useForm from '../../hooks/useForm'
 import { createPost } from '../../services/posts'
 
 const FeedForm = (props) => {
     const [form, handleInputChange, resetState] = useForm({ title: '', text: ''})
-
+    const [isLoading, setIsLoading] = useState(false)
+    
     const onClickCreate = (event) => {
-        const token = localStorage.getItem('token')
-
         event.preventDefault()
         const element = document.getElementById('feed-form')
         const isValid = element.checkValidity()
         element.reportValidity()
         if(isValid){
-            createPost(token, form)
+            createPost(form, setIsLoading, props.getAllPosts)
             resetState()
         }
     }
@@ -47,7 +46,7 @@ const FeedForm = (props) => {
                     color="primary"
                     onClick={onClickCreate}
                 >
-                    postar
+                    {isLoading ? <CircularProgress color={'inherit'} size={24}/> : <>postar</>}
                 </Button>
         </form>
      );

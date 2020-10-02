@@ -1,11 +1,11 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { TextField, Button, Container, Avatar, Typography } from '@material-ui/core';
-import LockIcon from '@material-ui/icons/Lock';
 import { useHistory } from 'react-router-dom';
-import { signup } from '../../services/users';
+import { TextField, Button, Container, Avatar, Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import LockIcon from '@material-ui/icons/Lock';
 import useForm from '../../hooks/useForm';
 import useUnprotectedPage from '../../hooks/useUnprotectedPage';
+import { signup } from '../../services/users';
 
 const useStyles = makeStyles((theme) => ({
     container: {
@@ -32,9 +32,11 @@ const useStyles = makeStyles((theme) => ({
   }));
 
 const SignUpPage = (props) => {
-    useUnprotectedPage()
-    
+    const classes = useStyles();
+    const history = useHistory();
     const [form, handleInputChange] = useForm({ username: '', email: '', password: ''})
+
+    useUnprotectedPage();
 
     const onClickSignUp = (event) => {
         event.preventDefault()
@@ -45,9 +47,6 @@ const SignUpPage = (props) => {
             signup(form, history, props.setButtonName)
         }
     }
-
-    const classes = useStyles();
-    const history = useHistory();
 
     return ( 
         <Container className={classes.container} maxWidth="xs">

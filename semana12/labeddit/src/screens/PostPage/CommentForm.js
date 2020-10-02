@@ -1,27 +1,31 @@
-import React from 'react';
-import { Button, TextField } from '@material-ui/core';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { Button, CircularProgress, TextField } from '@material-ui/core';
+import { goToPost } from '../../routes/Coordinator';
 import useForm from '../../hooks/useForm';
 import { createComment } from '../../services/posts';
+import { CommentFormBox } from './styled'
 
 const CommentForm = (props) => {
     const {postId} = props
     const [form, handleInputChange, resetState] = useForm({ text: ''})
+    const [isLoading, setIsLoading] = useState(false)
+    const history = useHistory()
 
     const onClickCreate = (event) => {
-        const token = localStorage.getItem('token')
-
         event.preventDefault()
         const element = document.getElementById('comment-form')
         const isValid = element.checkValidity()
         element.reportValidity()
         if(isValid){
-            createComment(token, postId, form)
+            createComment(postId, form, history, setIsLoading)
             resetState()
+            goToPost(history, postId)
         }
     }
 
     return ( 
-        <form id='comment-form'>
+        <CommentFormBox id='comment-form'>
             <TextField
                 value={form.text}
                 onChange={handleInputChange}
@@ -38,11 +42,10 @@ const CommentForm = (props) => {
                 color="primary"
                 onClick={onClickCreate}
             >
-                comentar
+                {isLoading ? <CircularProgress color={'inherit'} size={24}/> : <>comentar</>}
             </Button>
-        </form>
+        </CommentFormBox>
      );
 }
  
-
 export default CommentForm;

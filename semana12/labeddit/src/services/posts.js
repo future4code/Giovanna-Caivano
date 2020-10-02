@@ -1,91 +1,55 @@
 import axios from 'axios'
 import {baseURL} from '../constants/urls'
+import { goToPost } from '../routes/Coordinator'
 
-export const getPosts = (token, setPostArray) => {
-    axios.get(`${baseURL}/posts`, {
-        headers: {
-            Authorization: token
-        }
-    })
-    .then((response) => {
-        console.log(response.data.posts)
-        setPostArray(response.data.posts)
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-}
+const token = localStorage.getItem('token')
 
-export const createPost = (token, body) => {
+export const createPost = (body, setIsLoading, getAllPosts) => {
+    setIsLoading(true)
     axios.post(`${baseURL}/posts`, body, {
         headers: {
             Authorization: token
         }
     })
     .then((response) => {
-        console.log(response.status)
+        setIsLoading(false)
+        alert('Post criado com sucesso')
     })
     .catch((error) => {
         console.log(error)
+        setIsLoading(false)
+        getAllPosts()
+        alert('Algo deu errado. Por favor, tente novamente.')
     })
 }
-export const createComment = (token, id, body) => {
+
+export const createComment = (id, body, history, setIsLoading) => {
+    setIsLoading(true)
     axios.post(`${baseURL}/posts/${id}/comment`, body, {
         headers: {
             Authorization: token
         }
     })
     .then((response) => {
-        console.log(response.status)
+        setIsLoading(false)
+        alert('Comentário criado com sucesso')
+        console.log(history, id)
+        goToPost(history, id)
     })
     .catch((error) => {
         console.log(error)
     })
 }
 
-export const sendVote = (id, token, direction) => {
-    const body = {
-        direction: direction
-    }
-    axios.put(`${baseURL}/posts/${id}/vote`, body, {
-        headers: {
-            Authorization: token
-        }
-    })
-    .then((response) => {
-        console.log(response)
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-}
- export const getPostDetail = (id, token, setPostDetail, setPostComments) => {
+ export const getPostDetail = (id, setPostDetail, setPostComments) => {
     axios.get(`${baseURL}/posts/${id}`, {
         headers: {
             Authorization: token
         }
     })
     .then((response) => {
-        console.log(response.data.post)
         setPostDetail(response.data.post)
         setPostComments(response.data.post.comments)
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-}
-
-export const sendCommentVote = (id, commentId, token, direction) => {
-    const body = {
-        direction: direction
-    }
-    axios.put(`${baseURL}/posts/${id}/comment/${commentId}/vote`, body, {
-        headers: {
-            Authorization: token
-        }
-    })
-    .then((response) => {
-        console.log(response)
     })
     .catch((error) => {
         console.log(error)
