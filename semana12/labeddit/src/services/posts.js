@@ -1,6 +1,5 @@
 import axios from 'axios'
 import {baseURL} from '../constants/urls'
-import { goToPost } from '../routes/Coordinator'
 
 const token = localStorage.getItem('token')
 
@@ -14,16 +13,17 @@ export const createPost = (body, setIsLoading, getAllPosts) => {
     .then((response) => {
         setIsLoading(false)
         alert('Post criado com sucesso')
+        getAllPosts()
+
     })
     .catch((error) => {
         console.log(error)
         setIsLoading(false)
-        getAllPosts()
         alert('Algo deu errado. Por favor, tente novamente.')
     })
 }
 
-export const createComment = (id, body, history, setIsLoading) => {
+export const createComment = (id, body, setIsLoading, getPostDetail, setPostDetail, setPostComments) => {
     setIsLoading(true)
     axios.post(`${baseURL}/posts/${id}/comment`, body, {
         headers: {
@@ -33,8 +33,7 @@ export const createComment = (id, body, history, setIsLoading) => {
     .then((response) => {
         setIsLoading(false)
         alert('Comentário criado com sucesso')
-        console.log(history, id)
-        goToPost(history, id)
+        getPostDetail(id, setPostDetail, setPostComments)
     })
     .catch((error) => {
         console.log(error)
