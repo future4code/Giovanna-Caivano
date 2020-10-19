@@ -1,0 +1,7 @@
+.App {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: 20vh 70vh;
+  margin: 20px;
+  align-content: center;
+}
