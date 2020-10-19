@@ -1,0 +1,13 @@
+{
+  "name": "aula-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js",
+    "start-search-by-continent": "node ./index.js",
+    "start-ex-1": "node ./exercicio1.js",
+  },
+  "author": "Giovanna Caivano",
+  "license": "ISC"
+}
