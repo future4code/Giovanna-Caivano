@@ -1,8 +1,8 @@
 enum CLOTHES_TYPES {
-    VERAO = 'Verão',
-    INVERNO = 'Inverno',
-    BANHO = 'Banho',
-    INTIMAS = 'Íntimas'
+    VERAO = 'VERAO',
+    INVERNO = 'INVERNO',
+    BANHO = 'BANHO',
+    INTIMAS = 'INTIMAS'
 }
 
 enum DISCOUNTS {
@@ -16,31 +16,15 @@ type product = {
     name: string,
     price: number,
     clothType: CLOTHES_TYPES
-    calcDiscount: (price: number, clothType: string) => number
+    calcDiscount: (item: product) => number
 }
 
-function calcDiscount(price: number, clothType: string) {
-    let discount: number = 0
-
-    switch(clothType){
-        case 'Verão':
-            discount = 0.05
-            break
-        case 'Inverno':
-            discount = 0.10
-            break
-        case 'Banho':
-            discount = 0.04
-            break
-        case 'Íntimas':
-            discount = 0.07
-            break
-    }
-    return price*(1-discount)
+function calcDiscount(item: product): number {
+    return item.price*(1-DISCOUNTS[item.clothType])
 }
 
 function getDiscountedPrice(products: product[]): product[] {
-    return products.map(item => { return {...item, discountedprice: item.calcDiscount(item.price, item.clothType)} })
+    return products.map(item => { return {...item, discountedprice: item.calcDiscount(item)} })
 }
 
 const products: product[] = [
