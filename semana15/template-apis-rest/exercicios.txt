@@ -16,5 +16,7 @@ a. Qual é o tipo de envio de parâmetro que costuma ser utilizado por aqui?
 QueryParams
 
 EXERCÍCIO 4
-a. Qual é o tipo de envio de parâmetro que costuma ser utilizado por aqui?
-b. Altere este endpoint para que ele devolva uma mensagem de erro caso nenhum usuário tenha sido encontrado.
+a. Mude o método do endpoint para PUT. O que mudou?
+Nada, a criação do usuário continua acontecendo.
+b. Você considera o método PUT apropriado para esta transação? Por quê?
+Não. Ele deve ser utilizado para atualizações de dados já existentes. Embora funcione, não está correto.
