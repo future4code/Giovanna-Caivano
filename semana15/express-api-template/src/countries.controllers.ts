@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from 'express' //importanto o express e o type express
+import { Request, Response } from 'express' //importanto o express e o type express
 import { countries, country } from './countries'
 
 
@@ -10,7 +10,7 @@ exports.getByQueryParam = (req:Request, res:Response) => {
     let errorCode = 400
 
     try {
-        if(!req.query){
+        if(!req.query.name && !req.query.capital && !req.query.continent){
             throw new Error()
         }
 
@@ -41,11 +41,26 @@ exports.getByQueryParam = (req:Request, res:Response) => {
 }
 
 exports.getById = (req:Request, res:Response) => {
-    const result: country | undefined = countries.find(
-        country => country.id === Number(req.params.id)
-    )
+    let errorCode = 400
 
-    res.status(200).send(result)
+    try {
+        if(!req.params.id){
+            throw new Error()
+        } else {
+            const result: country | undefined = countries.find(
+                country => country.id === Number(req.params.id)
+            )
+
+            if(!result){
+                errorCode = 404
+                throw new Error()
+            } else {
+                res.status(200).send(result)
+            }
+        }
+    } catch (error) {
+        res.send(errorCode).end()
+    }
 }
 
 exports.create = (req:Request, res:Response) => {
@@ -57,7 +72,7 @@ exports.create = (req:Request, res:Response) => {
         if(!req.headers.authorization || req.headers.authorization.length < 10 || typeof req.headers.authorization !== 'string'){
             errorCode = 401
             throw new Error()
-        } else if(!req.body){
+        } else if(!req.body.name || !req.body.capital || !req.body.continent){
             errorCode = 400
             throw new Error()
         } else {
@@ -88,13 +103,14 @@ exports.create = (req:Request, res:Response) => {
 
 exports.edit = (req:Request, res:Response) => {
     let errorCode: number = 400
-    let params: string = String(req.params)
     try {
 
         if(!req.headers.authorization || req.headers.authorization.length < 10 || typeof req.headers.authorization !== 'string'){
             errorCode = 401
             throw new Error()
-        } else if(!req.params || !req.body){
+        } 
+        
+        if(!req.params.id || (!req.body.name && !req.body.capital)){
             errorCode = 400
             throw new Error()
         } else {
@@ -114,13 +130,19 @@ exports.edit = (req:Request, res:Response) => {
         }
 
     } catch (error) {
-        res.status(errorCode).send(params)
+        res.status(errorCode).send()
     }
 }
 
 exports.delete = (req:Request, res:Response) => {
     let errorCode: number = 400
+
     try{
+
+        if(!req.params.id){
+            throw new Error()
+        }
+        
         if(!req.headers.authorization || req.headers.authorization.length < 10 || typeof req.headers.authorization !== 'string'){
             errorCode = 401
             throw new Error()
