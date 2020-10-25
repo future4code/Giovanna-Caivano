@@ -1,7 +1,6 @@
-import express, { Express, Request, Response } from 'express'
+import express, { Express } from 'express'
 import cors from 'cors'
 import { AddressInfo } from "net";
-import { usersAccounts } from './users';
 const users = require('./users.controllers')
 
 const app: Express = express()
@@ -12,6 +11,7 @@ app.use(cors())
 
 app.post('/accounts/new', users.create)
 app.get('/accounts/all', users.getAll)
+app.get('/accounts/search', users.getByCpf)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if (server) {

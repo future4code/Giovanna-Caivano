@@ -30,17 +30,41 @@ exports.create = (req: Request, res:Response): void => {
             }
         }
     } catch (error) {
-        res.status(400).send({
+        res.status(errorCode).send({
             message: "Error creating new user!"
         })
     }
 }
 
-exports.getAll =(req: Request, res:Response): void => {
+exports.getAll = (req: Request, res:Response): void => {
     try {
         res.status(200).send(usersAccounts)
     } catch (error) {
         res.status(400).send({
+            message: "Error searching users."
+        })
+    }
+}
+
+exports.getByCpf = (req: Request, res:Response): void => {
+    let errorCode = 400
+    const cpf: any = req.query.cpf
+
+    try {
+        if(!cpf || cpf.length < 11) {
+            throw new Error("Insert valid parameter")
+        }
+
+        const foundAccount: UserAccount | undefined = usersAccounts.find(account => account.cpf === Number(cpf))
+        
+        if(!foundAccount) {
+            errorCode = 404
+            throw new Error("Account not found.")
+        } else {
+            res.status(200).send(foundAccount)
+        }
+    } catch (error) {
+        res.status(errorCode).send({
             message: "Error searching users."
         })
     }
