@@ -69,3 +69,27 @@ exports.getByCpf = (req: Request, res:Response): void => {
         })
     }
 }
+
+exports.deposit = (req: Request, res: Response): void => {
+    let errorCode = 400
+
+    try {
+        if(!req.body.name || !req.body.cpf || !req.body.ammount) {
+            throw new Error("Wrong or missing parameters.")
+        }
+
+        const existingAccount: UserAccount | undefined = usersAccounts.find(account => {
+            return account.name === req.body.name && account.cpf === Number(req.body.cpf)
+        })
+
+        if(!existingAccount){
+            errorCode = 404
+            throw new Error("Account not found")
+        } else {
+            existingAccount.accBalance = existingAccount.accBalance + Number(req.body.ammount)
+            res.status(200).send("Deposit executed.")
+        }
+    } catch (error) {
+        res.status(errorCode).end()
+    }
+}
