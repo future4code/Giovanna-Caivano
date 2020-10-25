@@ -1,9 +1,11 @@
 import { Request, Response } from 'express'
 import { UserAccount, usersAccounts } from './users'
-import { today, isAdult, getTimeStamp } from './dateHelpers'
+import { today, isAdult, getTimeStamp, checkExistingAccount } from './helpers'
+
+let msg: string = ""
+let errorCode: number = 400
 
 exports.create = (req: Request, res:Response): void => {
-    let errorCode: number = 400
     let newUserAccount: UserAccount = req.body
     const canOpenAccount = isAdult(req.body.birthDate) 
 
@@ -47,7 +49,6 @@ exports.getAll = (req: Request, res:Response): void => {
 }
 
 exports.getByCpf = (req: Request, res:Response): void => {
-    let errorCode = 400
     const cpf: any = req.query.cpf
 
     try {
@@ -71,7 +72,6 @@ exports.getByCpf = (req: Request, res:Response): void => {
 }
 
 exports.deposit = (req: Request, res: Response): void => {
-    let errorCode = 400
 
     try {
         if(!req.body.name || !req.body.cpf || !req.body.ammount) {
@@ -86,7 +86,7 @@ exports.deposit = (req: Request, res: Response): void => {
             errorCode = 404
             throw new Error("Account not found")
         } else {
-            existingAccount.accBalance = existingAccount.accBalance + Number(req.body.ammount)
+            // existingAccount.accBalance = existingAccount.accBalance + Number(req.body.ammount)
             existingAccount.statement = [...existingAccount.statement, { 
                 ammount: Number(req.body.ammount),
                 date: Date.now(),
@@ -100,8 +100,6 @@ exports.deposit = (req: Request, res: Response): void => {
 }
 
 exports.payment = (req: Request, res: Response): void => {
-    let errorCode: number = 400
-    let msg: string = ""
     let {dueDate, paymentAmmount, paymentDescription, cpf} = req.body
     
     try {
@@ -134,6 +132,33 @@ exports.payment = (req: Request, res: Response): void => {
                 description: paymentDescription
             }]
             res.status(200).send("Payment scheduled!")
+        }
+    } catch (error) {
+        res.status(errorCode).send(msg)
+    }
+}
+
+exports.updateAccBalance = (req: Request, res: Response): void => {
+    const cpf: number = Number(req.params.cpf)
+    const account: UserAccount | undefined = checkExistingAccount(cpf)
+
+    try{
+        if(!account){
+            errorCode = 404
+            msg = "Account not found"
+        } 
+        else {
+            const transactionsDueToday = account.statement.filter(transaction => {
+                return transaction.date <= today
+            })
+            let newAccBalance: number = account.accBalance
+
+            for(let transaction of transactionsDueToday) {
+                newAccBalance = account.accBalance - transaction.ammount
+            }
+            
+            account.accBalance = newAccBalance
+            res.status(200).send("Account balance updated")
         }
     } catch (error) {
         res.status(errorCode).send(msg)
