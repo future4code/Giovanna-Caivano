@@ -10,8 +10,8 @@ const app: Express = express()
 app.use(express.json())
 app.use(cors())
 
-app.post('./accounts/new', users.create)
-app.get('./accounts/all', users.getAll)
+app.post('/accounts/new', users.create)
+app.get('/accounts/all', users.getAll)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if (server) {

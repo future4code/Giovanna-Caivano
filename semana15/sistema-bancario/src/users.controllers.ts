@@ -12,14 +12,22 @@ exports.create = (req: Request, res:Response): void => {
             errorCode = 401
             throw new Error("User age under 18.")
         } else {
-            const birthDateTimeStamp = getTimeStamp(req.body.birthDate)
-            usersAccounts.push({
-                ...newUserAccount,
-                birthDate: birthDateTimeStamp
-            })
-            res.status(200).send({
-                message: "New user account has been created!"
-            })
+            const existingCpf: boolean = usersAccounts.some(
+                user => user.cpf === req.body.cpf
+            )
+            if(existingCpf){
+                errorCode = 409
+                throw new Error("There's already an account for that CPF")
+            } else {
+                const birthDateTimeStamp = getTimeStamp(req.body.birthDate)
+                usersAccounts.push({
+                    ...newUserAccount,
+                    birthDate: birthDateTimeStamp
+                })
+                res.status(200).send({
+                    message: "New user account has been created!"
+                })
+            }
         }
     } catch (error) {
         res.status(400).send({
