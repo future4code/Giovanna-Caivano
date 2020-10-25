@@ -87,7 +87,12 @@ exports.deposit = (req: Request, res: Response): void => {
             throw new Error("Account not found")
         } else {
             existingAccount.accBalance = existingAccount.accBalance + Number(req.body.ammount)
-            res.status(200).send("Deposit executed.")
+            existingAccount.statement = [...existingAccount.statement, { 
+                ammount: Number(req.body.ammount),
+                date: Date.now(),
+                description: "Depósito de Dinheiro"
+            }]
+            res.status(200).send({ message: "Deposit executed." })
         }
     } catch (error) {
         res.status(errorCode).end()
