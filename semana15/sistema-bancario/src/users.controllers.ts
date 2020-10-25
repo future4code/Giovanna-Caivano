@@ -129,6 +129,10 @@ exports.payment = (req: Request, res: Response): void => {
             errorCode = 404
             msg = "Account not found"
             throw new Error()
+        } else if (existingAccount.accBalance < paymentAmmount) {
+            msg = "Not enough balance."
+            throw new Error();
+            
         } else {
             existingAccount.statement = [...existingAccount.statement, { 
                 ammount: paymentAmmount,
