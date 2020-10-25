@@ -115,6 +115,10 @@ exports.payment = (req: Request, res: Response): void => {
             throw new Error()
         } else {
             dueDate = getTimeStamp(dueDate)
+            if(dueDate < today){
+                msg = "This is a past date, you should provide a future date."
+                throw new Error()
+            }
         }
         
         const existingAccount: UserAccount | undefined = usersAccounts.find(account => {
