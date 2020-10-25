@@ -7,7 +7,7 @@ let errorCode: number = 400
 
 exports.create = (req: Request, res:Response): void => {
     let newUserAccount: UserAccount = req.body
-    const canOpenAccount = isAdult(req.body.birthDate) 
+    const canOpenAccount: boolean = isAdult(req.body.birthDate) 
 
     try{
         if(!canOpenAccount){
@@ -23,10 +23,9 @@ exports.create = (req: Request, res:Response): void => {
                 msg = "There's already an account for that CPF."
                 throw new Error()
             } else {
-                const birthDateTimeStamp = getTimeStamp(req.body.birthDate)
                 usersAccounts.push({
                     ...newUserAccount,
-                    birthDate: birthDateTimeStamp
+                    birthDate: getTimeStamp(req.body.birthDate)
                 })
                 res.status(200).send("New user account has been created!")
             }
@@ -45,11 +44,12 @@ exports.getAll = (req: Request, res:Response): void => {
 }
 
 exports.getByCpf = (req: Request, res:Response): void => {
-    const cpf: any = Number(req.query.cpf)
+    const cpf: number = Number(req.query.cpf)
 
     try {
-        if(!cpf || cpf.length < 11) {
-            throw new Error("Insert valid parameter")
+        if(!cpf || cpf < 99999999999) {
+            msg = "Insert valid parameter"
+            throw new Error()
         }
 
         const existingAccount: UserAccount | undefined = checkExistingAccount(cpf)
@@ -67,7 +67,6 @@ exports.getByCpf = (req: Request, res:Response): void => {
 }
 
 exports.deposit = (req: Request, res: Response): void => {
-
     try {
         if(!req.body.name || !req.body.cpf || !req.body.ammount) {
             msg = "Wrong or missing parameters."
@@ -115,7 +114,7 @@ exports.payment = (req: Request, res: Response): void => {
             }
         }
         
-        const existingAccount: UserAccount | undefined = checkExistingAccount(cpf)
+        const existingAccount: UserAccount | undefined = checkExistingAccount(Number(cpf))
         
         if(!existingAccount){
             errorCode = 404
@@ -146,6 +145,8 @@ exports.updateAccBalance = (req: Request, res: Response): void => {
         if(!account){
             errorCode = 404
             msg = "Account not found"
+            throw new Error();
+            
         } 
         else {
             const transactionsDueToday: Transaction[] | undefined = account.statement.filter(transaction => {
@@ -180,7 +181,7 @@ exports.wiretransfer= (req: Request, res: Response): void => {
         } else if (!recipientAccount){
             msg = "Recipient account not found"
             throw new Error();
-        } else if(senderAccount.accBalance < ammount) {
+        } else if(senderAccount.accBalance < Number(ammount)) {
             msg = "Not enough balance"
             throw new Error();
         } else {
