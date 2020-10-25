@@ -135,7 +135,7 @@ exports.payment = (req: Request, res: Response): void => {
             
         } else {
             existingAccount.statement = [...existingAccount.statement, { 
-                ammount: paymentAmmount,
+                ammount: -paymentAmmount,
                 date: dueDate,
                 description: paymentDescription
             }]
@@ -162,12 +162,46 @@ exports.updateAccBalance = (req: Request, res: Response): void => {
             let newAccBalance: number = account.accBalance
 
             for(let transaction of transactionsDueToday) {
-                newAccBalance = account.accBalance - transaction.ammount
+                newAccBalance = account.accBalance + transaction.ammount
             }
             
             account.accBalance = newAccBalance
             res.status(200).send("Account balance updated")
         }
+    } catch (error) {
+        res.status(errorCode).send(msg)
+    }
+}
+
+exports.wiretransfer= (req: Request, res: Response): void => {
+    const { senderName, senderCpf, recipientName, recipientCpf, ammount  } = req.body
+    const senderAccount: UserAccount | undefined = checkExistingAccount(senderCpf)
+    const recipientAccount: UserAccount | undefined = checkExistingAccount(recipientCpf)
+
+    try {
+        if( !senderCpf || !senderName || !recipientCpf || !recipientName || !ammount){
+            msg = "Parameter(s) missing."
+            throw new Error();
+        } else if(!senderAccount){
+            msg = "Sender account not found"
+            throw new Error();
+        } else if (!recipientAccount){
+            msg = "Recipient account not found"
+            throw new Error();
+        } else {
+            senderAccount.statement = [...senderAccount.statement, {
+                ammount: -ammount,
+                date: today,
+                description: `Transferência para ${recipientName}`
+            }]
+            recipientAccount.statement = [...recipientAccount.statement, {
+                ammount: ammount,
+                date: today,
+                description: `Transferência de ${senderName}`
+            }]
+            res.status(200).send("Funds transfered succssfully!")
+        }
+
     } catch (error) {
         res.status(errorCode).send(msg)
     }

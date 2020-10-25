@@ -15,6 +15,7 @@ app.get('/accounts/search', users.getByCpf)
 app.put('/accounts/deposit', users.deposit)
 app.post('/accounts/payment', users.payment)
 app.put('/accounts/update/balance/:cpf', users.updateAccBalance)
+app.post('/accounts/wiretransfer', users.wiretransfer)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if (server) {
