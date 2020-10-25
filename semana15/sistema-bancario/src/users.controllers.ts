@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { UserAccount, usersAccounts } from './users'
-import { isAdult, getTimeStamp } from './dateHelpers'
+import { today, isAdult, getTimeStamp } from './dateHelpers'
 
 exports.create = (req: Request, res:Response): void => {
     let errorCode: number = 400
@@ -96,5 +96,46 @@ exports.deposit = (req: Request, res: Response): void => {
         }
     } catch (error) {
         res.status(errorCode).end()
+    }
+}
+
+exports.payment = (req: Request, res: Response): void => {
+    let errorCode: number = 400
+    let msg: string = ""
+    let {dueDate, paymentAmmount, paymentDescription, cpf} = req.body
+    
+    try {
+        if(!paymentAmmount || !cpf) {
+            msg = "Missing ammount or CPF"
+            throw new Error()
+        }
+        
+        if(!dueDate){
+            dueDate = today
+        } else if(!getTimeStamp(dueDate)){
+            msg = "Wrong date format. Please provide a date DD/MM/YYYY"
+            throw new Error()
+        } else {
+            dueDate = getTimeStamp(dueDate)
+        }
+        
+        const existingAccount: UserAccount | undefined = usersAccounts.find(account => {
+            return account.cpf === cpf
+        })
+        
+        if(!existingAccount){
+            errorCode = 404
+            msg = "Account not found"
+            throw new Error()
+        } else {
+            existingAccount.statement = [...existingAccount.statement, { 
+                ammount: paymentAmmount,
+                date: dueDate,
+                description: paymentDescription
+            }]
+            res.status(200).send("Payment scheduled!")
+        }
+    } catch (error) {
+        res.status(errorCode).send(msg)
     }
 }

@@ -3,13 +3,20 @@ export type UserAccount = {
     cpf: number,
     birthDate: number,
     accBalance: number,
-    statement: Transaction[]
+    statement: (Transaction | Payment)[]
 }
 
 export type Transaction = {
     ammount: number,
     date: number,
     description: string
+}
+
+export type Payment = {
+    dueDate: number,
+    description: string,
+    ammount: number,
+    cpf: number
 }
 
 export const usersAccounts: UserAccount[] = [

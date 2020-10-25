@@ -13,6 +13,7 @@ app.post('/accounts/new', users.create)
 app.get('/accounts/all', users.getAll)
 app.get('/accounts/search', users.getByCpf)
 app.put('/accounts/deposit', users.deposit)
+app.post('/accounts/payment', users.payment)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if (server) {
