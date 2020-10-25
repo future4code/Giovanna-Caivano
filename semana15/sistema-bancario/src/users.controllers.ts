@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { UserAccount, usersAccounts } from './users'
+import { UserAccount, Transaction, usersAccounts } from './users'
 import { today, isAdult, getTimeStamp, checkExistingAccount } from './helpers'
 
 let msg: string = ""
@@ -12,29 +12,27 @@ exports.create = (req: Request, res:Response): void => {
     try{
         if(!canOpenAccount){
             errorCode = 401
-            throw new Error("User age under 18.")
+            msg = "User age under 18."
+            throw new Error()
         } else {
             const existingCpf: boolean = usersAccounts.some(
                 user => user.cpf === req.body.cpf
             )
             if(existingCpf){
                 errorCode = 409
-                throw new Error("There's already an account for that CPF")
+                msg = "There's already an account for that CPF."
+                throw new Error()
             } else {
                 const birthDateTimeStamp = getTimeStamp(req.body.birthDate)
                 usersAccounts.push({
                     ...newUserAccount,
                     birthDate: birthDateTimeStamp
                 })
-                res.status(200).send({
-                    message: "New user account has been created!"
-                })
+                res.status(200).send("New user account has been created!")
             }
         }
     } catch (error) {
-        res.status(errorCode).send({
-            message: "Error creating new user!"
-        })
+        res.status(errorCode).send(msg)
     }
 }
 
@@ -42,32 +40,29 @@ exports.getAll = (req: Request, res:Response): void => {
     try {
         res.status(200).send(usersAccounts)
     } catch (error) {
-        res.status(400).send({
-            message: "Error searching users."
-        })
+        res.status(400).send("Error searching users.")
     }
 }
 
 exports.getByCpf = (req: Request, res:Response): void => {
-    const cpf: any = req.query.cpf
+    const cpf: any = Number(req.query.cpf)
 
     try {
         if(!cpf || cpf.length < 11) {
             throw new Error("Insert valid parameter")
         }
 
-        const foundAccount: UserAccount | undefined = usersAccounts.find(account => account.cpf === Number(cpf))
-        
-        if(!foundAccount) {
+        const existingAccount: UserAccount | undefined = checkExistingAccount(cpf)
+
+        if(!existingAccount) {
             errorCode = 404
-            throw new Error("Account not found.")
+            msg = "Account not found."
+            throw new Error()
         } else {
-            res.status(200).send(foundAccount)
+            res.status(200).send(existingAccount)
         }
     } catch (error) {
-        res.status(errorCode).send({
-            message: "Error searching users."
-        })
+        res.status(errorCode).send(msg)
     }
 }
 
@@ -75,27 +70,26 @@ exports.deposit = (req: Request, res: Response): void => {
 
     try {
         if(!req.body.name || !req.body.cpf || !req.body.ammount) {
-            throw new Error("Wrong or missing parameters.")
+            msg = "Wrong or missing parameters."
+            throw new Error()
         }
 
-        const existingAccount: UserAccount | undefined = usersAccounts.find(account => {
-            return account.name === req.body.name && account.cpf === Number(req.body.cpf)
-        })
+        const existingAccount: UserAccount | undefined = checkExistingAccount(req.body.cpf, req.body.name)
 
         if(!existingAccount){
             errorCode = 404
-            throw new Error("Account not found")
+            msg = "Account not found"
+            throw new Error()
         } else {
-            // existingAccount.accBalance = existingAccount.accBalance + Number(req.body.ammount)
             existingAccount.statement = [...existingAccount.statement, { 
                 ammount: Number(req.body.ammount),
                 date: Date.now(),
                 description: "Depósito de Dinheiro"
             }]
-            res.status(200).send({ message: "Deposit executed." })
+            res.status(200).send("Deposit executed.")
         }
     } catch (error) {
-        res.status(errorCode).end()
+        res.status(errorCode).send(msg)
     }
 }
 
@@ -121,21 +115,19 @@ exports.payment = (req: Request, res: Response): void => {
             }
         }
         
-        const existingAccount: UserAccount | undefined = usersAccounts.find(account => {
-            return account.cpf === cpf
-        })
+        const existingAccount: UserAccount | undefined = checkExistingAccount(cpf)
         
         if(!existingAccount){
             errorCode = 404
             msg = "Account not found"
             throw new Error()
-        } else if (existingAccount.accBalance < paymentAmmount) {
+        } else if (existingAccount.accBalance < Number(paymentAmmount)) {
             msg = "Not enough balance."
             throw new Error();
             
         } else {
             existingAccount.statement = [...existingAccount.statement, { 
-                ammount: -paymentAmmount,
+                ammount: Number(-paymentAmmount),
                 date: dueDate,
                 description: paymentDescription
             }]
@@ -156,7 +148,7 @@ exports.updateAccBalance = (req: Request, res: Response): void => {
             msg = "Account not found"
         } 
         else {
-            const transactionsDueToday = account.statement.filter(transaction => {
+            const transactionsDueToday: Transaction[] | undefined = account.statement.filter(transaction => {
                 return transaction.date <= today
             })
             let newAccBalance: number = account.accBalance
@@ -188,14 +180,17 @@ exports.wiretransfer= (req: Request, res: Response): void => {
         } else if (!recipientAccount){
             msg = "Recipient account not found"
             throw new Error();
+        } else if(senderAccount.accBalance < ammount) {
+            msg = "Not enough balance"
+            throw new Error();
         } else {
             senderAccount.statement = [...senderAccount.statement, {
-                ammount: -ammount,
+                ammount: Number(-ammount),
                 date: today,
                 description: `Transferência para ${recipientName}`
             }]
             recipientAccount.statement = [...recipientAccount.statement, {
-                ammount: ammount,
+                ammount: Number(ammount),
                 date: today,
                 description: `Transferência de ${senderName}`
             }]
