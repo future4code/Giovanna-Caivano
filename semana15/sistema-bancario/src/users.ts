@@ -1,3 +1,4 @@
+export const users = []
 export type UserAccount = {
     name: string,
     cpf: number,
