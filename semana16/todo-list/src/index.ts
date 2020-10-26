@@ -1,13 +1,12 @@
 import knex from "knex";
-import express, { Request, Response } from "express";
+import express from "express";
 import dotenv from "dotenv";
 import { AddressInfo } from "net";
 
-/**************************************************************/
+const users = require('./user.controllers')
+const tasks = require('./task.controllers')
 
 dotenv.config();
-
-/**************************************************************/
 
 const connection = knex({   
   client: "mysql",
@@ -20,11 +19,14 @@ const connection = knex({
   },
 });
 
-/**************************************************************/
-
 const app = express();
-
 app.use(express.json());
+
+app.put('/user', users.createUser)
+app.get('/user/:id', users.getUser)
+app.post('/user/edit/:id', users.getUser)
+app.put('/task', tasks.createTask)
+app.get('/task/:id', users.getTask)
 
 const server = app.listen(process.env.PORT || 3003, () => {
   if (server) {
