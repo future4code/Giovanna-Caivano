@@ -98,6 +98,51 @@ SELECT * FROM Actor WHERE (name LIKE "%G%" OR name LIKE "%g%" OR name LIKE "%A%"
 ```
 
 ### Exercício 5
+a) Query abaixo. Cria a tabela Movies que receberá 5 valores, todos obrigatórios. O id será a chave primária (identificador) e deve ser uma string. O movie_name é o nome do filme e deve ser também uma string. 'synopsis' guardará o texto de sinopse e será do tipo TEXT que suporta até pouco mais de 65mil caracteres. A data de lançamento é o launch_date, que tem formato data YYYY-MM-DD. Por mim, o classification é a avaliação do filme que é um TINYINT que vai de 0 a 10. Todas as linhas da tabela, conterão esses 5 valores.
+```
+CREATE TABLE Movies (
+    id VARCHAR(255) PRIMARY KEY,
+    movie_name VARCHAR(255) NOT NULL,
+    synopsis TEXT NOT NULL,
+    launch_date DATE NOT NULL,
+	classification TINYINT(10) NOT NULL
+);
+```
+
 ### Exercício 6
+a) Query:
+```
+SELECT id, movie_name, classification FROM Movies WHERE id = "001";
+```
+
+b) Query:
+```
+SELECT * FROM Movies WHERE movie_name = "Doce de mãe";
+```
+
+c) Query:
+```
+SELECT id, movie_name, synopsis FROM Movies WHERE classification > 7;
+```
+
 ### Exercício 7
+a) Query:
+```
+SELECT * FROM Movies WHERE movie_name LIKE "%vida%";
+```
+
+b) Query:
+```
+SELECT * FROM Movies WHERE movie_name LIKE "%confusões%" OR synopsis LIKE "%confusões%";
+```
+
+c) Query:
+```
+SELECT * FROM Movies WHERE launch_date < NOW();
+```
+
+d) Query:
+```
+SELECT * FROM Movies WHERE (movie_name LIKE "%confusões%" OR synopsis LIKE "%confusões%") AND launch_date < NOW() AND classification > 7;
+```
 
