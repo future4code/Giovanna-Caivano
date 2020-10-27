@@ -1,14 +1,12 @@
-import knex from "knex";
-import express from "express";
-import dotenv from "dotenv";
+import express, { Request, Response } from "express";
 import { AddressInfo } from "net";
-
-const users = require('./user.controllers')
-const tasks = require('./task.controllers')
+import knex from "knex";
+import dotenv from "dotenv";
+import { createUser, findUserByEmail } from "./user.controllers";
 
 dotenv.config();
 
-const connection = knex({   
+export const connection = knex({   
   client: "mysql",
   connection: {
     host: process.env.DB_HOST,
@@ -19,14 +17,56 @@ const connection = knex({
   },
 });
 
+let errorCode: number = 400
+let msg: string = ""
+
 const app = express();
 app.use(express.json());
 
-app.put('/user', users.createUser)
-app.get('/user/:id', users.getUser)
-app.post('/user/edit/:id', users.getUser)
-app.put('/task', tasks.createTask)
-app.get('/task/:id', users.getTask)
+app.put('/user', (req: Request, res: Response):void => {
+  const { name, nickname, email } = req.body
+
+  try{
+      if(!name || typeof name !== 'string'){
+          msg = "Name was not provided or is invalid."
+          throw new Error();
+      } else if(!nickname || typeof nickname !== 'string'){
+          msg = "Nickname was not provided or is invalid."
+          throw new Error();
+      } else if(!email || typeof email !== 'string'){
+          msg = "Email was not provided or is invalid."
+          throw new Error();
+      } else {
+          // const existingUser: any = findUserByEmail(email)
+          // console.log(existingUser)
+          // if(existingUser){
+          //     errorCode = 409
+          //     msg = "User already exists."
+          // } else {
+              const id: string = String(Date.now())
+              createUser(name, nickname, email, id)
+              msg = "User created!"
+              res.status(200).send({ 
+                message: msg, 
+                response: { 
+                  name: name,
+                  nickname: nickname,
+                  email: email,
+                  id: id
+                 }
+              })
+          }
+      // }
+
+  } catch(error) {
+      res.status(errorCode).send(msg)
+  }
+})
+
+// app.get('/user/:id', users.getUser)
+// app.post('/user/edit/:id', users.getUser)
+// app.put('/task', tasks.createTask)
+// app.get('/task/:id', users.getTask)
 
 const server = app.listen(process.env.PORT || 3003, () => {
   if (server) {
@@ -36,3 +76,17 @@ const server = app.listen(process.env.PORT || 3003, () => {
     console.error(`Failure upon starting server.`);
   }
 });
+
+app.get('/', testEndpoint)
+
+async function testEndpoint(req:Request, res:Response): Promise<void>{
+  try {
+    const result = await connection.raw(`
+      SELECT * FROM Actor
+    `)
+
+    res.status(200).send(result[0])
+  } catch (error) {
+    res.status(400).send(error.message)
+  }
+}

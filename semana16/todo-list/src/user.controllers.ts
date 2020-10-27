@@ -1,74 +1,59 @@
-import { Request, Response } from 'express'
+import {connection} from './index'
 
-let errorCode: number = 400
-let msg: string = ""
+export async function findUserById(id: string): Promise<any> {
+    const result = await connection.raw(`
+        SELECT id, nickname 
+        FROM TodoListUser
+        WHERE id="${id}"
+    `)
 
-//será subsitutído pelos dados do banco
-type User = {
-    name: string,
-    nickname: string,
-    email: string,
-    id: number
+    return result
 }
 
-type Task = {
-    title: string,
-    description: string,
-    limitDate: string
+export async function findUserByEmail(email: string): Promise<any> {
+    const result = await connection.raw(`
+        SELECT email 
+        FROM TodoListUser
+        WHERE email="${email}"
+    `)
+
+    return result
 }
 
-const tasks: Task[] = []
-const users: User[] = []
+export async function createUser(name: string, nickname: string, email: string, id: string): Promise<any> {
+        await connection.raw(`
+            INSERT INTO TodoListUser (id, name, nickname, email)
+            VALUES(
+            "${id}",
+            "${name}",
+            "${nickname}",
+            "${email}"
+        );
+    `)
 
-exports.createUser = (req: Request, res: Response):void => {
-    const { name, nickname, email } = req.body
-    const id: number = Date.now()
-
-    try{
-        if(!name || typeof name !== 'string'){
-            msg = "Name was not provided or is invalid."
-            throw new Error();
-        } else if(!nickname || typeof nickname !== 'string'){
-            msg = "Nickname was not provided or is invalid."
-            throw new Error();
-        } else if(!email || typeof email !== 'string'){
-            msg = "Email was not provided or is invalid."
-            throw new Error();
-        } else {
-            const existingUser: boolean = users.some(user => user.id === id)
-            if(existingUser){
-                errorCode = 409
-                msg = "User already exists."
-            } else {
-
-                //adiciona no banco de dados as informações do novo usuário
-
-                msg = "User created!"
-                res.status(200).send(msg)
-            }
-        }
-
-    } catch(error) {
-        res.status(errorCode).send(msg)
-    }
 }
 
-exports.getUser = (req: Request, res: Response):void => {
-    try {
-        if(!req.params.id){
-            msg = "Missing id"
-        } else {
-            // verifica se existe usuário com esse id no banco, se existir traz o objeto
-            const existingUser: boolean = true
-            if(existingUser){
-                //retorna id e nickname
-            }
-            res.status(200).send({ id: 1, nickname: "nickname"})
-        }
-    } catch (error) {
-        res.status(errorCode).send(msg)
-    }
+export async function getAllUsers(): Promise<any> {
+    const result = await connection.raw(`
+        SELECT * FROM TodoListUser
+    `)
+    return result[0]
 }
+
+// exports.getUsers = async function (req: Request, res: Response) {
+//     try {
+//         if (!req.params.id) {
+//             msg = "Missing id";
+//         } else {
+//             const existingUser = findUser(req.params.id);
+//             if (existingUser) {
+//                 res.status(200).send(existingUser);
+//             }
+//         }
+//     } catch (error) {
+//         res.status(errorCode).send(msg);
+//     }
+// }
 
 // app.post('/user/edit/:id', users.getUser)
 // app.put('/task', tasks.createTask)
