@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import { AddressInfo } from "net";
 import knex from "knex";
 import dotenv from "dotenv";
-import { createUser, findUserByEmail } from "./user.controllers";
+import { createUser, findUserById } from "./user.controllers";
 
 dotenv.config();
 
@@ -63,7 +63,21 @@ app.put('/user', (req: Request, res: Response):void => {
   }
 })
 
-// app.get('/user/:id', users.getUser)
+app.get('/user/:id', (req: Request, res: Response):void => {
+  try{
+    if(!req.params.id){
+      msg = "Please, provide an ID for the search"
+      throw new Error();
+    } else {
+      const user = findUserById(req.params.id)
+      msg = "User found"
+      res.status(200).send(msg)
+    }
+  } catch (error) {
+    res.status(400).send(msg)
+  }
+})
+
 // app.post('/user/edit/:id', users.getUser)
 // app.put('/task', tasks.createTask)
 // app.get('/task/:id', users.getTask)

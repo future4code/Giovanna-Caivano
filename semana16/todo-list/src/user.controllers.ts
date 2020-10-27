@@ -6,8 +6,11 @@ export async function findUserById(id: string): Promise<any> {
         FROM TodoListUser
         WHERE id="${id}"
     `)
-
-    return result
+    const user = {
+        id: result[0][0].id,
+        nickname: result[0][0].nickname
+    }
+    return user
 }
 
 export async function findUserByEmail(email: string): Promise<any> {
