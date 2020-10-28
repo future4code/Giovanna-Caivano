@@ -5,6 +5,7 @@ import knex from 'knex'
 import { AddressInfo } from 'net'
 import { getActorByName } from './endopoints/getActorByName'
 import { getGenderStats } from './endopoints/getGenderStats'
+import { updateSalary } from './endopoints/updateSalary'
 
 dotenv.config()
 
@@ -26,6 +27,7 @@ app.use(cors())
 
 app.get('/actors/search', getActorByName)
 app.get('/actors/:gender', getGenderStats)
+app.put('/actors/update/salary', updateSalary)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if(server){
