@@ -8,6 +8,8 @@ import { getGenderStats } from './endopoints/getGenderStats'
 import { updateSalary } from './endopoints/updateSalary'
 import { deleteActor } from './endopoints/deleteActor'
 import { getGenderSalaryStats } from './endopoints/getGenderSalaryStats'
+import { getActorById } from './endopoints/getActorById'
+import { getActorsByGender } from './endopoints/getActorsByGender'
 
 dotenv.config()
 
@@ -27,7 +29,9 @@ export const connection = knex({
 app.use(express.json())
 app.use(cors())
 
+app.get('/actors', getActorsByGender)
 app.get('/actors/search', getActorByName)
+app.get('/actors/:id', getActorById)
 app.get('/actors/:gender', getGenderStats)
 app.put('/actors/update/salary', updateSalary)
 app.delete('/actors/delete/:id', deleteActor)
