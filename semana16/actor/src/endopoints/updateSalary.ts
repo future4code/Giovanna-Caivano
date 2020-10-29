@@ -1,4 +1,4 @@
-import {Request, Response} from 'express'
+import { Request, Response } from 'express'
 import { updateActorSalary } from '../data/updateActorSalary'
 
 export const updateSalary = async (req: Request, res: Response) => {
