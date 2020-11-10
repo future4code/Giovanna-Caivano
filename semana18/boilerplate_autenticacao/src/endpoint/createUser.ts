@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { generateToken } from '../../services/authenticator'
-import generateId from '../../services/idGenerator'
+import { generateToken } from '../services/authenticator'
+import generateId from '../services/idGenerator'
 import { insertUser } from '../data/insertUser'
 
 export const createUser = async (

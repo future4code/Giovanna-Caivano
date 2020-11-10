@@ -1,5 +1,5 @@
-import { connection } from '../../'
-import { User } from '../../types'
+import { connection } from '..'
+import { User } from '../types'
 
 export const selectUserById = async (
     id: string

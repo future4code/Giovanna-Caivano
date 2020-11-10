@@ -1,11 +1,12 @@
 import knex from "knex";
-import express from "express";
+import express, { Express } from "express";
 import dotenv from "dotenv";
 import cors from 'cors'
 import { AddressInfo } from "net";
-import { createUser } from "./src/endpoint/createUser";
-import { login } from "./src/endpoint/login";
-import { getUserProfile } from "./src/endpoint/getUserProfile";
+import { createUser } from "./endpoint/createUser";
+import { login } from "./endpoint/login";
+import { getUserProfile } from "./endpoint/getUserProfile";
+import { sayHi } from "./endpoint/sayHi";
 
 dotenv.config();
 
@@ -21,15 +22,17 @@ export const connection = knex({
   },
 });
 
-const app = express();
+const app: Express = express();
+
 app.use(express.json());
 app.use(cors())
 
+app.get('userstable', sayHi)
 app.post('users/signup', createUser)
 app.post('users/login', login)
-app.get('user/profile', getUserProfile)
+app.get('users/profile', getUserProfile)
 
-const server = app.listen(process.env.PORT || 3010, () => {
+const server = app.listen(process.env.PORT || 3003, () => {
   if (server) {
     const address = server.address() as AddressInfo;
     console.log(`Server is running in http://localhost:${address.port}`);

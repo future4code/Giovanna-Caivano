@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
-import { generateToken } from '../../services/authenticator'
-import { User } from '../../types'
+import { generateToken } from '../services/authenticator'
+import { User } from '../types'
 import { selectUserByEmail } from '../data/selectUserByEmail'
 
 export const login = async (

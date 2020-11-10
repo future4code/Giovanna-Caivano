@@ -1,4 +1,4 @@
-import { connection } from '../..'
+import { connection } from '..'
 
 export const insertUser = async (
     id: string,
