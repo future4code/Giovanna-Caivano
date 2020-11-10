@@ -6,6 +6,6 @@ export type User = {
 }
 
 export enum USER_ROLE {
-    NORMAL,
-    ADMIN
+    NORMAL = 'NORMAL',
+    ADMIN = 'ADMIN'
 }
