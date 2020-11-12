@@ -5,6 +5,8 @@ import dotenv from 'dotenv'
 import knex from 'knex'
 import { createUser } from './endpoint/signup'
 import { logUser } from './endpoint/login'
+import { getOwnProfile } from './endpoint/getOwnProfile'
+import { getUserProfile } from './endpoint/getUserProfile'
 
 const app: Express = express()
 
@@ -25,8 +27,8 @@ export const connection = knex({
 
 app.post('/signup', createUser)
 app.post('/login', logUser)
-app.get('/user/profile')
-app.get('/user/:id')
+app.get('/user/profile', getOwnProfile)
+app.get('/user/:id', getUserProfile)
 app.post('/recipe')
 app.get('/recipe/:id')
 

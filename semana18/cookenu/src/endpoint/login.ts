@@ -19,14 +19,14 @@ export const logUser = async (
             throw new Error(message)
         }
         
-        const user:User | undefined = await selectUserByEmail(email)
+        const user:User[] | undefined = await selectUserByEmail(email)
         if(!user){
             res.statusCode = 404
             message = 'User not found or wrong password.'
             throw new Error(message)
         }
         
-        const passwordIsCorrect:boolean = await compare(password, user.password)
+        const passwordIsCorrect:boolean = await compare(password, user[0].password)
 
         if(!passwordIsCorrect){
             res.statusCode = 401
@@ -35,7 +35,7 @@ export const logUser = async (
         }
 
         const token:string = generateToken({
-            id: user.id
+            id: user[0].id
         })
         res.send({
             message,

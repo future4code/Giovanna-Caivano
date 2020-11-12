@@ -35,5 +35,13 @@ const createRecipesTable = async (): Promise<void> => {
     }
 }
 
-createUsersTable()
-createRecipesTable()
+const createTables = async (): Promise<void> => {
+    try {
+        await createUsersTable()
+        createRecipesTable()
+    } catch (error) {
+        console.log(error.message || error.sqlMessage)
+    }
+}
+
+createTables()
