@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { AuthenticationData, getTokenData } from '../../services/authenticator'
+import { AuthenticationData, getTokenData } from '../services/authenticator'
 import { selectUserById } from '../data/selectUserById'
 
 export const getUserProfile = async (
@@ -24,7 +24,8 @@ export const getUserProfile = async (
         res.status(200).send({
             message: {
                 id: userData.id,
-                email: userData.email
+                email: userData.email,
+                role: userData.role
             }
         })
     } catch (error) {

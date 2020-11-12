@@ -1,5 +1,5 @@
-import { connection } from '../../'
-import { User } from '../../types'
+import { connection } from '..'
+import { User } from '../types'
 
 export const selectUserByEmail = async (
     email:string
@@ -14,7 +14,8 @@ export const selectUserByEmail = async (
         return {
             id: result[0].id,
             email: result[0].email,
-            password: result[0].password
+            password: result[0].password,
+            role: result[0].role
         }
     } catch (error) {
         throw new Error(error.message || error.sqlMessage);

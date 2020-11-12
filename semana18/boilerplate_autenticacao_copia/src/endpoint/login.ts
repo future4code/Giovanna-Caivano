@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
-import { generateToken } from '../../services/authenticator'
-import { User } from '../../types'
+import { generateToken } from '../services/authenticator'
+import { User } from '../types'
 import { selectUserByEmail } from '../data/selectUserByEmail'
+import { compare } from '../services/hashManager'
 
 export const login = async (
     req: Request,
@@ -25,15 +26,18 @@ export const login = async (
             message = "User not found or wrong password."
             throw new Error(message);
         }
+
+        const passwordIsCorrect: boolean = await compare(password, user.password)
         
-        if(user.password !== password){
+        if(!passwordIsCorrect){
             res.statusCode = 401
             message = "User not found or wrong password."
             throw new Error(message);
         }
 
         const token: string = generateToken({
-            id: user.id
+            id: user.id,
+            role: user.role
         })
 
         res.send({
