@@ -5,7 +5,7 @@ const createUsersTable = async (): Promise<void> => {
         await connection.schema.hasTable('users').then(function(exists){
             if(!exists){
                 return connection.schema.createTable('users', (table: any) => {
-                    table.uuid('id').primary()
+                    table.string('id').primary()
                     table.string('name').notNullable()
                     table.string('email').notNullable().unique()
                     table.string('password').notNullable()
@@ -24,9 +24,10 @@ const createRecipesTable = async (): Promise<void> => {
                 return connection.schema.createTable('recipes', (table: any) => {
                     table.increments('id').primary()
                     table.string('title').notNullable()
-                    table.string('description').notNullable()
-                    table.datetime('create_date').notNullable()
-                    table.string('recipe_creator_id').references('users.id')
+                    table.text('description').notNullable()
+                    table.date('create_date').notNullable()
+                    table.string('recipe_creator_id').notNullable()
+                    table.foreign('recipe_creator_id').references('users.id')
                 })
             }
         })
@@ -40,7 +41,7 @@ const createTables = async (): Promise<void> => {
         await createUsersTable()
         createRecipesTable()
     } catch (error) {
-        console.log(error.message || error.sqlMessage)
+        console.log(error)
     }
 }
 

@@ -1,5 +1,4 @@
 import * as jwt from 'jsonwebtoken'
-import { User } from '../types'
 export type AuthenticationData = {
     id: string
 }

@@ -7,6 +7,8 @@ import { createUser } from './endpoint/signup'
 import { logUser } from './endpoint/login'
 import { getOwnProfile } from './endpoint/getOwnProfile'
 import { getUserProfile } from './endpoint/getUserProfile'
+import { createRecipe } from './endpoint/createRecipe'
+import { getRecipeById } from './endpoint/getRecipeById'
 
 const app: Express = express()
 
@@ -29,8 +31,8 @@ app.post('/signup', createUser)
 app.post('/login', logUser)
 app.get('/user/profile', getOwnProfile)
 app.get('/user/:id', getUserProfile)
-app.post('/recipe')
-app.get('/recipe/:id')
+app.post('/recipe', createRecipe)
+app.get('/recipe/:id', getRecipeById)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if(server){

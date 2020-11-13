@@ -1,16 +1,18 @@
 import { Request, Response } from 'express'
-import { selectUserById } from '../data/selectUserById'
+import { insertRecipe } from '../data/insertRecipe'
 import { AuthenticationData, getTokenData } from '../services/authenticator'
-import { User } from '../types'
+import { Recipe } from '../types'
 
-export const getOwnProfile = async (
+export const createRecipe = async (
     req:Request, 
-    res:Response
+    res: Response
     ) => {
     
-        let message:string = 'User found.'
-        
-    try {
+    const { title, description } = req.body
+    let message:string = 'Recipe created.'
+
+    
+    try{
         const token:string = req.headers.authorization as string
         const tokenData: AuthenticationData = getTokenData(token)
         if(!token || !tokenData){
@@ -18,19 +20,28 @@ export const getOwnProfile = async (
             message = 'Unauthorized.'
             throw new Error(message);
         }
-
-        const userData: User[] | undefined = await selectUserById(tokenData.id) 
-        if(!userData){
-            res.statusCode = 404
-            message = 'User not found.'
-            throw new Error (message)
+        
+        if(!title || !description){
+            res.statusCode = 400
+            message = 'Missing either title and/or description.'
+            throw new Error(message);
+        } else {
+            const create_date:Date = new Date()
+            const recipe_creator_id:string = tokenData.id
+        
+            const recipeInfo: Recipe = {
+                title,
+                description,
+                create_date,
+                recipe_creator_id
+            }
+        
+            await insertRecipe(recipeInfo)
+    
+            res.send({
+                message
+            })
         }
-
-        res.send({
-            id: userData[0].id,
-            name: userData[0].name,
-            email: userData[0].email,
-        })
     } catch (error) {
         if(error.message === `Cannot read property 'id' of undefined`){
             error.message = 'ID parameter must be provided.'

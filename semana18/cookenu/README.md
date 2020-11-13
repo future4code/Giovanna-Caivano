@@ -24,6 +24,7 @@ JWT_EXPIRES_IN
 //suas preferências de cost
 BCRYPT_COST
 ```
+
 ```
 npm start
 ```
