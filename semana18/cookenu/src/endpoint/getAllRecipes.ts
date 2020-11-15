@@ -1,18 +1,19 @@
 import { Request, Response } from 'express'
+import { selectAllRecipes } from '../data/selectAllRecipes'
 import { selectUserById } from '../data/selectUserById'
 import { AuthenticationData, getTokenData } from '../services/authenticator'
-import { User } from '../types'
+import { Recipe, User } from '../types'
 
-export const getOwnProfile = async (
-    req:Request, 
+export const getAllRecipes = async (
+    req:Request,
     res:Response
     ) => {
+
+    let message:string = ''
     
-    let message:string = 'User found.'
-        
     try {
         const token:string = req.headers.authorization as string
-        const tokenData: AuthenticationData = getTokenData(token)
+        const tokenData:AuthenticationData = getTokenData(token)
         if(!token || !tokenData){
             res.statusCode = 401
             message = 'Unauthorized.'
@@ -24,23 +25,13 @@ export const getOwnProfile = async (
             res.statusCode = 404
             message = 'User not found.'
             throw new Error (message)
+        } else {
+            const feed:Recipe[] | undefined = await selectAllRecipes()
+            res.send({
+                feed
+            })
         }
-
-        res.send({
-            id: userData[0].id,
-            name: userData[0].name,
-            email: userData[0].email,
-        })
     } catch (error) {
-        if(error.message === `Cannot read property 'id' of undefined`){
-            error.message = 'ID parameter must be provided.'
-        }
-        if(error.message === `jwt malformed`){
-            error.message = 'Invalid token.'
-        }
-        if(error.message === `jwt must be provided`){
-            error.message = 'Unauthorized.'
-        }
         res.status(400).send({
             message: error.message || error.sqlMessage
         })

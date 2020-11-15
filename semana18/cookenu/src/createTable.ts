@@ -36,10 +36,28 @@ const createRecipesTable = async (): Promise<void> => {
     }
 }
 
+const createUsersFollowingTable = async (): Promise<void> => {
+    try {
+        await connection.schema.hasTable('users_followers').then(function(exists){
+            if(!exists){
+                return connection.schema.createTable('users_followers', (table:any)=> {
+                    table.string('follower_user').notNullable()
+                    table.string('followed_user').notNullable()
+                    table.foreign('follower_user').references('users.id')
+                    table.foreign('followed_user').references('users.id')
+                })
+            }
+        })
+    } catch (error) {
+        throw new Error(error.sqlMessage)
+    }
+}
+
 const createTables = async (): Promise<void> => {
     try {
         await createUsersTable()
-        createRecipesTable()
+        await createRecipesTable()
+        createUsersFollowingTable()
     } catch (error) {
         console.log(error)
     }

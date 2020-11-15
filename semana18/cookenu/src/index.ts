@@ -9,6 +9,7 @@ import { getOwnProfile } from './endpoint/getOwnProfile'
 import { getUserProfile } from './endpoint/getUserProfile'
 import { createRecipe } from './endpoint/createRecipe'
 import { getRecipeById } from './endpoint/getRecipeById'
+import { follow } from './endpoint/follow'
 
 const app: Express = express()
 
@@ -33,6 +34,7 @@ app.get('/user/profile', getOwnProfile)
 app.get('/user/:id', getUserProfile)
 app.post('/recipe', createRecipe)
 app.get('/recipe/:id', getRecipeById)
+app.post('/user/follow', follow)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if(server){

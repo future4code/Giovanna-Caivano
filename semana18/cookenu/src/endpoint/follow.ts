@@ -1,16 +1,24 @@
 import { Request, Response } from 'express'
+import { insertFollowRelation } from '../data/insertFollowRelation'
 import { selectUserById } from '../data/selectUserById'
 import { AuthenticationData, getTokenData } from '../services/authenticator'
 import { User } from '../types'
 
-export const getOwnProfile = async (
-    req:Request, 
+export const follow = async (
+    req:Request,
     res:Response
     ) => {
-    
-    let message:string = 'User found.'
-        
+
+    let message:string = 'Followed successfully.'
+    const userToFollowId:string = req.body.id as string
+
     try {
+        if(!userToFollowId){
+            res.statusCode = 406
+            message = 'Missing parameter.'
+            throw new Error(message);
+        }
+
         const token:string = req.headers.authorization as string
         const tokenData: AuthenticationData = getTokenData(token)
         if(!token || !tokenData){
@@ -19,18 +27,18 @@ export const getOwnProfile = async (
             throw new Error(message);
         }
 
-        const userData: User[] | undefined = await selectUserById(tokenData.id) 
-        if(!userData){
+        const followerData:User[] | undefined = await selectUserById(tokenData.id)
+        const userToFollowData:User[] | undefined = await selectUserById(userToFollowId)
+        if(!followerData || !userToFollowData){
             res.statusCode = 404
-            message = 'User not found.'
+            message = 'User/s not found.'
             throw new Error (message)
+        } else {
+            await insertFollowRelation(tokenData.id, userToFollowId)
+            res.status(201).send({
+                message
+            })
         }
-
-        res.send({
-            id: userData[0].id,
-            name: userData[0].name,
-            email: userData[0].email,
-        })
     } catch (error) {
         if(error.message === `Cannot read property 'id' of undefined`){
             error.message = 'ID parameter must be provided.'
