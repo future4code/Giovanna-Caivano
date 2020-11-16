@@ -10,6 +10,8 @@ import { getUserProfile } from './endpoint/getUserProfile'
 import { createRecipe } from './endpoint/createRecipe'
 import { getRecipeById } from './endpoint/getRecipeById'
 import { follow } from './endpoint/follow'
+import { unfollow } from './endpoint/unfollow'
+import { getAllRecipes } from './endpoint/getAllRecipes'
 
 const app: Express = express()
 
@@ -31,10 +33,12 @@ export const connection = knex({
 app.post('/signup', createUser)
 app.post('/login', logUser)
 app.get('/user/profile', getOwnProfile)
+app.post('/user/follow', follow)
+app.post('/user/unfollow', unfollow)
+app.get('/user/feed', getAllRecipes)
 app.get('/user/:id', getUserProfile)
 app.post('/recipe', createRecipe)
 app.get('/recipe/:id', getRecipeById)
-app.post('/user/follow', follow)
 
 const server = app.listen(process.env.PORT || 3003, () => {
     if(server){

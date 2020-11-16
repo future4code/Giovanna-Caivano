@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { insertFollowRelation } from '../data/insertFollowRelation'
 import { selectUserById } from '../data/selectUserById'
+import { treatErrorMessage } from '../helpers/treatErrorMsg'
 import { AuthenticationData, getTokenData } from '../services/authenticator'
 import { User } from '../types'
 
@@ -10,7 +11,7 @@ export const follow = async (
     ) => {
 
     let message:string = 'Followed successfully.'
-    const userToFollowId:string = req.body.id as string
+    const userToFollowId:string = req.body.userToFollowId as string
 
     try {
         if(!userToFollowId){
@@ -40,15 +41,7 @@ export const follow = async (
             })
         }
     } catch (error) {
-        if(error.message === `Cannot read property 'id' of undefined`){
-            error.message = 'ID parameter must be provided.'
-        }
-        if(error.message === `jwt malformed`){
-            error.message = 'Invalid token.'
-        }
-        if(error.message === `jwt must be provided`){
-            error.message = 'Unauthorized.'
-        }
+        treatErrorMessage(error)
         res.status(400).send({
             message: error.message || error.sqlMessage
         })

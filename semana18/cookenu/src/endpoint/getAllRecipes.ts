@@ -26,9 +26,9 @@ export const getAllRecipes = async (
             message = 'User not found.'
             throw new Error (message)
         } else {
-            const feed:Recipe[] | undefined = await selectAllRecipes()
+            const recipes:Recipe[] | undefined = await selectAllRecipes()
             res.send({
-                feed
+                recipes
             })
         }
     } catch (error) {

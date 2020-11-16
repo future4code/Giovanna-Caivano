@@ -1,16 +1,17 @@
 import { Request, Response } from 'express'
 import { deleteFollow } from '../data/deleteFollow'
 import { selectUserById } from '../data/selectUserById'
+import { treatErrorMessage } from '../helpers/treatErrorMsg'
 import { AuthenticationData, getTokenData } from '../services/authenticator'
 import { User } from '../types'
 
-export const follow = async (
+export const unfollow = async (
     req:Request,
     res:Response
     ) => {
 
     let message:string = 'Unollowed successfully.'
-    const userToUnfollowId:string = req.body.id as string
+    const userToUnfollowId:string = req.body.userToUnfollowId as string
 
     try {
         if(!userToUnfollowId){
@@ -40,15 +41,7 @@ export const follow = async (
             })
         }
     } catch (error) {
-        if(error.message === `Cannot read property 'id' of undefined`){
-            error.message = 'ID parameter must be provided.'
-        }
-        if(error.message === `jwt malformed`){
-            error.message = 'Invalid token.'
-        }
-        if(error.message === `jwt must be provided`){
-            error.message = 'Unauthorized.'
-        }
+        treatErrorMessage(error)
         res.status(400).send({
             message: error.message || error.sqlMessage
         })

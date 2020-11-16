@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { insertRecipe } from '../data/insertRecipe'
+import { treatErrorMessage } from '../helpers/treatErrorMsg'
 import { AuthenticationData, getTokenData } from '../services/authenticator'
 import { Recipe } from '../types'
 
@@ -43,15 +44,7 @@ export const createRecipe = async (
             })
         }
     } catch (error) {
-        if(error.message === `Cannot read property 'id' of undefined`){
-            error.message = 'ID parameter must be provided.'
-        }
-        if(error.message === `jwt malformed`){
-            error.message = 'Invalid token.'
-        }
-        if(error.message === `jwt must be provided`){
-            error.message = 'Unauthorized.'
-        }
+        treatErrorMessage(error)
         res.status(400).send({
             message: error.message || error.sqlMessage
         })

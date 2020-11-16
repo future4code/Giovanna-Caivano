@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { selectUserById } from '../data/selectUserById'
+import { treatErrorMessage } from '../helpers/treatErrorMsg'
 import { AuthenticationData, getTokenData } from '../services/authenticator'
 import { User } from '../types'
 
@@ -32,15 +33,7 @@ export const getOwnProfile = async (
             email: userData[0].email,
         })
     } catch (error) {
-        if(error.message === `Cannot read property 'id' of undefined`){
-            error.message = 'ID parameter must be provided.'
-        }
-        if(error.message === `jwt malformed`){
-            error.message = 'Invalid token.'
-        }
-        if(error.message === `jwt must be provided`){
-            error.message = 'Unauthorized.'
-        }
+        treatErrorMessage(error)
         res.status(400).send({
             message: error.message || error.sqlMessage
         })
