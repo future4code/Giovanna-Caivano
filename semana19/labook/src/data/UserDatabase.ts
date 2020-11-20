@@ -1,3 +1,4 @@
+import { CustomError } from "../errors/CustomError";
 import { User } from "../model/User";
 import BaseDatabase from "./BaseDatabase";
 
@@ -25,14 +26,25 @@ class UserDatabase extends BaseDatabase {
 
     public async getUserByEmail(
         email:string
-    ):Promise<User[]> {
+    ):Promise<User | null> {
         try {
-            return await BaseDatabase
+            const result:any[] =  await BaseDatabase
             .connection(UserDatabase.tableName)
             .select('*')
             .where({email})
+
+            if(!result[0]){
+                return null             
+            }
+
+            return new User(
+                result[0].id,
+                result[0].name,
+                result[0].email,
+                result[0].password
+            )
         } catch (error) {
-            throw new Error("Erro de banco de dados" + error.sqlMessage);
+            throw new Error(error.sqlMessage);
         }
     }
 }

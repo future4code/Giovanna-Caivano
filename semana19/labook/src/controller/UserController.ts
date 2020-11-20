@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import UserBusiness from '../busines/UserBusiness'
-import { CreateUserInput, User } from '../model/User'
+import { CreateUserInput, CreateUserOutput, LoginInput, LoginOutput, User } from '../model/User'
 
 class UserController {
     public async signup(
@@ -14,12 +14,39 @@ class UserController {
                 password: req.body.password
             }
 
-            const token:string = await UserBusiness.signup(input)
+            const token:CreateUserOutput = await UserBusiness.signup(input)
 
             res
             .status(201)
             .send({
-                message: 'Usuário criado.',
+                message: "Usuário criado.",
+                token
+            })
+        } catch (error) {
+            res
+            .status(error.statusCode)
+            .send({
+                message: error.message || error.sqlMessage
+            })
+        }
+    }
+
+    public async login(
+        req:Request,
+        res:Response
+    ) {
+        try {
+            const input:LoginInput = {
+                email: req.body.email,
+                password: req.body.password
+            }
+
+            const token:LoginOutput = await UserBusiness.login(input)
+
+            res
+            .status(201)
+            .send({
+                message: "Autorizado.",
                 token
             })
         } catch (error) {

@@ -4,7 +4,15 @@ export interface CreateUserInput {
     password:string
 }
 
+export interface LoginInput {
+    email:string,
+    password:string
+}
 export type CreateUserOutput = {
+    token: string
+}
+
+export type LoginOutput = {
     token: string
 }
 
