@@ -1,7 +1,7 @@
 import UserDatabase from "../data/UserDatabase";
 import { CustomError } from "../errors/CustomError";
 import { CreateUserInput, CreateUserOutput, LoginInput, LoginOutput, User } from "../model/User";
-import authenticator from "../services/authenticator";
+import authenticator, { AuthenticationData } from "../services/authenticator";
 import hashManager from "../services/hashManager";
 import idGenerator from "../services/idGenerator";
 
@@ -14,7 +14,7 @@ class UserBusiness {
                 throw new CustomError(406, 'Preencha os campos "name", "email" e "password".');
             }
 
-            const isExistingUser:User = await UserDatabase.getUserByEmail(input.email)
+            const isExistingUser: User | null = await UserDatabase.getUserByEmail(input.email)
             if(isExistingUser){
                 throw new CustomError(409, 'E-mail já cadastrado.');
             }
@@ -69,6 +69,16 @@ class UserBusiness {
             
             return output
 
+        } catch (error) {
+            throw new CustomError(400, error.sqlMessage || error.message);
+        }
+    }
+
+    public async authenticateUser(
+        token:string
+    ):Promise<AuthenticationData> {
+        try {
+            return authenticator.getTokenData(token)
         } catch (error) {
             throw new CustomError(400, error.sqlMessage || error.message);
         }

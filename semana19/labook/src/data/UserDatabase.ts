@@ -1,6 +1,5 @@
-import { CustomError } from "../errors/CustomError";
-import { User } from "../model/User";
 import BaseDatabase from "./BaseDatabase";
+import { User } from "../model/User";
 
 class UserDatabase extends BaseDatabase {
     private static tableName:string = 'labook_users'

@@ -70,8 +70,12 @@ const createTables = new CreateTables()
 const createTablesAtDB = async () => {
     try {
         await createTables.createUsersTable()
+        console.log('Criando tabela de usuários...')
         createTables.createPostsTable()
+        console.log('Criando tabela de posts...')
         createTables.createFollowingTable()
+        console.log('Criando tabela de relações...')
+        console.log('Concluído.')
     } catch (error) {
         console.log(error)
     }
